@@ -17,20 +17,16 @@ public class Position {
     public int getRowIndex() {
         return rowIndex;
     }
-    protected Position getRandomNeighbor(){
-        double randNum = Math.random();
-        if (randNum<0.25){
-            return new Position(rowIndex+1,colIndex);
+
+    @Override
+    public String toString(){
+        return "{"+rowIndex+","+colIndex+"}";
+    }
+    @Override
+    public boolean equals(Object other){
+        if (this.colIndex==((Position)other).getColIndex() && this.rowIndex==((Position)other).getRowIndex()){
+            return true;
         }
-        if (randNum>=0.25 && randNum<0.5){
-            return new Position(rowIndex,colIndex+1);
-        }
-        if (randNum>=0.5 && randNum<0.75){
-            return new Position(rowIndex-1,colIndex);
-        }
-        if (randNum>=0.75){
-            return new Position(rowIndex,colIndex-1);
-        }
-        return null;
+        return false;
     }
 }

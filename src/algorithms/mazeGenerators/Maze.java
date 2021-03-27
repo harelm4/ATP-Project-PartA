@@ -1,5 +1,7 @@
 package algorithms.mazeGenerators;
 
+import java.util.ArrayList;
+
 public class Maze {
     private int m_rowSize;
     private int m_colSize;
@@ -46,10 +48,11 @@ public class Maze {
                     System.out.print(",");
                 }
             }
-            System.out.printf("");
-            if(i!=m_rowSize-1){
+            if(i==m_rowSize-1){
                 System.out.printf("}");
             }
+            System.out.println("");
+
         }
 
 
@@ -73,5 +76,21 @@ public class Maze {
             return true;
         }
         return false;
+    }
+    protected ArrayList<Position> getAllNeighbors(Position p){
+        ArrayList<Position> l = new ArrayList<Position>();
+        if (p.getRowIndex()<m_rowSize-1) {
+            l.add(new Position(p.getRowIndex() + 1,  p.getColIndex()));
+        }
+        if (p.getColIndex()<m_colSize-1) {
+            l.add(new Position(p.getRowIndex(),  p.getColIndex() + 1));
+        }
+        if (p.getRowIndex()>0) {
+            l.add(new Position(p.getRowIndex() - 1,  p.getColIndex()));
+        }
+        if (p.getColIndex()>0) {
+            l.add(new Position(p.getRowIndex(),  p.getColIndex() - 1 ));
+        }
+        return l;
     }
 }

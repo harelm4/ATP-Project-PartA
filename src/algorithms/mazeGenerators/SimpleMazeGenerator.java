@@ -24,30 +24,42 @@ public class SimpleMazeGenerator extends AMazeGenerator {
             return null;
         }
         Random rand =new Random();
-        ArrayList<Position> list = new ArrayList<Position>();
+        ArrayList<Position> wlist = new ArrayList<Position>();
+        ArrayList<Position> mlist = new ArrayList<Position>();
+        ArrayList<Position> nlist = new ArrayList<Position>();
         Position neighbor;
-
+        Random ran = new Random();
         m.makeAllWalls();
         m.breakWall(start.getRowIndex(),start.getColIndex());
-        list.add(start);
-        boolean isEnd=false;
-        while (!isEnd){
-            neighbor=list.get(rand.nextInt(list.size())).getRandomNeighbor();
-            if(m.isPositionInRange(neighbor)){
-                m.breakWall(neighbor.getRowIndex(),neighbor.getColIndex());
-                list.add(neighbor);
+        mlist.add(start);
+        wlist= m.getAllNeighbors(start);
+        neighbor = wlist.get( ran.nextInt(wlist.size()) );
+
+        while(!neighbor.equals(m.getGoalPosition())){
+
+            m.breakWall(neighbor.getRowIndex(),neighbor.getColIndex());
+            mlist.add(neighbor);
+            wlist.removeAll(wlist);
+            wlist=m.getAllNeighbors(neighbor);
+            for (Position p:nlist){
+                if(!mlist.contains(p)){
+                    wlist.add(p);
+                }
             }
-            if(neighbor.getRowIndex()==end.getRowIndex() && neighbor.getColIndex()==neighbor.getColIndex()){
-                isEnd=true;
-            }
+
+            neighbor = wlist.get( ran.nextInt(wlist.size()) );
+
+//            if (!mlist.contains(neighbor)){
+//                m.breakWall(neighbor.getRowIndex(),neighbor.getColIndex());
+//                mlist.add(neighbor);
+//                nlist=m.getAllNeighbors(neighbor);
+//
+//            }
+//            else{
+//                wlist.remove(neighbor);
+//            }
 
         }
-
-
-
-
-
-
-
+        return m;
     }
 }
