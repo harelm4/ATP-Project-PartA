@@ -10,7 +10,7 @@ public class Position {
 
     }
 
-    public int getColIndex() {
+    public int getColumnIndex() {
         return colIndex;
     }
 
@@ -24,7 +24,7 @@ public class Position {
     }
     @Override
     public boolean equals(Object other){
-        if (this.colIndex==((Position)other).getColIndex() && this.rowIndex==((Position)other).getRowIndex()){
+        if (this.colIndex==((Position)other).getColumnIndex() && this.rowIndex==((Position)other).getRowIndex()){
             return true;
         }
         return false;

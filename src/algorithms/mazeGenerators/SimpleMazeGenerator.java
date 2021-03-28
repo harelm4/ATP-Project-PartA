@@ -24,42 +24,28 @@ public class SimpleMazeGenerator extends AMazeGenerator {
             return null;
         }
         Random rand =new Random();
-        ArrayList<Position> wlist = new ArrayList<Position>();
-        ArrayList<Position> mlist = new ArrayList<Position>();
-        ArrayList<Position> nlist = new ArrayList<Position>();
-        Position neighbor;
+        ArrayList<Position> nnlist = new ArrayList<Position>();//temp neighbors neighbor list
+        ArrayList<Position> mlist = new ArrayList<Position>();//list of visited cells
+        ArrayList<Position> nlist = new ArrayList<Position>();//list of neighbors to choose from
         Random ran = new Random();
         m.makeAllWalls();
-        m.breakWall(start.getRowIndex(),start.getColIndex());
+        m.breakWall(start.getRowIndex(),start.getColumnIndex());
         mlist.add(start);
-        wlist= m.getAllNeighbors(start);
-        neighbor = wlist.get( ran.nextInt(wlist.size()) );
-
-        while(!neighbor.equals(m.getGoalPosition())){
-
-            m.breakWall(neighbor.getRowIndex(),neighbor.getColIndex());
-            mlist.add(neighbor);
-            wlist.removeAll(wlist);
-            wlist=m.getAllNeighbors(neighbor);
-            for (Position p:nlist){
-                if(!mlist.contains(p)){
-                    wlist.add(p);
-                }
+        nlist= m.getRightDownNeighbors(start);
+        Position neighbor;
+        int i;
+        while(!mlist.contains(end)&& nlist.size()!=0) {
+            i = ran.nextInt(nlist.size());
+            if (i<0){
+                break;
             }
-
-            neighbor = wlist.get( ran.nextInt(wlist.size()) );
-
-//            if (!mlist.contains(neighbor)){
-//                m.breakWall(neighbor.getRowIndex(),neighbor.getColIndex());
-//                mlist.add(neighbor);
-//                nlist=m.getAllNeighbors(neighbor);
-//
-//            }
-//            else{
-//                wlist.remove(neighbor);
-//            }
+            neighbor = nlist.get(i);
+            mlist.add(neighbor);
+            m.breakWall(neighbor.getRowIndex(),neighbor.getColumnIndex());
+            nlist = m.getRightDownNeighbors(neighbor);
 
         }
+
         return m;
     }
 }

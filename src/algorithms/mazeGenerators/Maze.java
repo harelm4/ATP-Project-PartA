@@ -40,16 +40,12 @@ public class Maze {
         return m_start;
     }
     public void print(){
-        System.out.print("{");
         for (int i =0;i<m_rowSize;i++){
             for (int j = 0 ;j<m_colSize;j++){
                 System.out.print(m_maze[i][j]);
                 if(j!=m_colSize-1){
                     System.out.print(",");
                 }
-            }
-            if(i==m_rowSize-1){
-                System.out.printf("}");
             }
             System.out.println("");
 
@@ -65,32 +61,45 @@ public class Maze {
         }
     }
     protected boolean isPositionInRange(Position p){
-        if (p.getColIndex()<0 || p.getRowIndex()<0 || p.getColIndex()>=m_colSize || p.getRowIndex()>=m_rowSize){
+        if (p.getColumnIndex()<0 || p.getRowIndex()<0 || p.getColumnIndex()>=m_colSize || p.getRowIndex()>=m_rowSize){
             return false;
         }
         return true;
 
     }
     protected boolean isPositionOnEdges(Position p){
-        if (p.getColIndex()==m_colSize-1 || p.getColIndex()==0|| p.getRowIndex()==m_rowSize-1||p.getRowIndex()==0){
+        if (p.getColumnIndex()==m_colSize-1 || p.getColumnIndex()==0|| p.getRowIndex()==m_rowSize-1||p.getRowIndex()==0){
             return true;
         }
         return false;
     }
-    protected ArrayList<Position> getAllNeighbors(Position p){
+    protected ArrayList<Position> getRightDownNeighbors(Position p){
+
         ArrayList<Position> l = new ArrayList<Position>();
-        if (p.getRowIndex()<m_rowSize-1) {
-            l.add(new Position(p.getRowIndex() + 1,  p.getColIndex()));
+        if ((p.getRowIndex()<m_rowSize-1 ) && (m_maze[p.getRowIndex() + 1][ p.getColumnIndex()] == 1) ) {
+            l.add(new Position(p.getRowIndex() + 1,  p.getColumnIndex()));
         }
-        if (p.getColIndex()<m_colSize-1) {
-            l.add(new Position(p.getRowIndex(),  p.getColIndex() + 1));
-        }
-        if (p.getRowIndex()>0) {
-            l.add(new Position(p.getRowIndex() - 1,  p.getColIndex()));
-        }
-        if (p.getColIndex()>0) {
-            l.add(new Position(p.getRowIndex(),  p.getColIndex() - 1 ));
+        if (p.getColumnIndex()<m_colSize-1&& m_maze[p.getRowIndex()][ p.getColumnIndex()+1]==1) {
+            l.add(new Position(p.getRowIndex(),  p.getColumnIndex() + 1));
         }
         return l;
     }
+    protected ArrayList<Position> getAllNeighbors(Position p){
+
+        ArrayList<Position> l = new ArrayList<Position>();
+        if ((p.getRowIndex()<m_rowSize-1 ) && (m_maze[p.getRowIndex() + 1][ p.getColumnIndex()] == 1) ) {
+            l.add(new Position(p.getRowIndex() + 1,  p.getColumnIndex()));
+        }
+        if (p.getColumnIndex()<m_colSize-1&& m_maze[p.getRowIndex()][ p.getColumnIndex()+1]==1) {
+            l.add(new Position(p.getRowIndex(),  p.getColumnIndex() + 1));
+        }
+        if ((p.getRowIndex()>0 )&& p.getColumnIndex()<m_colSize-1 && p.getRowIndex()<m_rowSize-1 && (m_maze[p.getRowIndex() - 1][ p.getColumnIndex()] == 1) ) {
+            l.add(new Position(p.getRowIndex() -1,  p.getColumnIndex()));
+        }
+        if (p.getColumnIndex()>0 && p.getColumnIndex()<m_colSize-1 && p.getRowIndex()<m_rowSize-1 && m_maze[p.getRowIndex()][ p.getColumnIndex()-1]==1) {
+            l.add(new Position(p.getRowIndex(),  p.getColumnIndex() -1));
+        }
+        return l;
+    }
+
 }

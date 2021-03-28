@@ -1,4 +1,45 @@
 package algorithms.mazeGenerators;
 
-public class MyMazeGenerator {
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Stack;
+
+
+public class MyMazeGenerator extends AMazeGenerator {
+    /**
+     * maze generator based on the iterative algorithm (Wikipedia)
+     */
+    @Override
+    public Maze generate(int rowSize, int colSize) {
+        if(rowSize<=0 || colSize<=0 ){
+            return null;
+        }
+        Position start = new Position(0,0);
+        Position end = new Position(rowSize-1,colSize-1);
+        Maze m = new Maze(rowSize,colSize,start,end);
+        Stack<Position> stack = new Stack<Position>();
+        m.makeAllWalls();
+        ArrayList<Position> visited = new ArrayList<Position>();
+        visited.add(start);
+        stack.push(start);
+        m.breakWall(0,0);
+        ArrayList<Position> neighbors;
+        Position cur,n = start;
+        Random r = new Random();
+        while (!stack.isEmpty() && !n.equals(end) ){
+            cur = stack.pop();
+            neighbors = m.getAllNeighbors(cur);
+            if (!neighbors.isEmpty()){
+                stack.push(cur);
+                n =neighbors.get(r.nextInt(neighbors.size()));
+                m.breakWall(n.getRowIndex(),n.getColumnIndex());
+                visited.add(n);
+                stack.push(n);
+
+
+            }
+        }
+
+        return m;
+    }
 }
