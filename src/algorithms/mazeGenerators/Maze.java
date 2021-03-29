@@ -16,7 +16,6 @@ public class Maze {
         m_maze = new int[rowSize][colSize];
         m_start = start;
         m_end = end;
-
     }
     protected void addWall(int row,int col){
         m_maze[row][col] = 1;
