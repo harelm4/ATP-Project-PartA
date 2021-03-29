@@ -1,6 +1,7 @@
 package algorithms.mazeGenerators;
 
-public abstract class AMazeGenerator implements IMazeGenerator{
+public abstract class AMazeGenerator implements IMazeGenerator
+{
     public abstract Maze generate(int rowSize, int colSize);
 
     public long measureAlgorithmTimeMillis(int rowSize, int colSize){

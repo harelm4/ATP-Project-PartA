@@ -1,11 +1,18 @@
 package algorithms.search;
 
+/**
+ * An interface of algorithms.search that provides a common functions.
+ *
+ * @author Eden_Hai
+ * @version 1.0
+ * @since 29-03-2021
+ */
 public interface ISearchingAlgorithm
 {
     /**
      * This method algorithms.search for a legal sequence of states from start state to goal state on domain.
      * @param domain is a searchable object on which we will run a algorithms.search
-     * @return the solution - algorithms.search.Solution
+     * @return Solution -  algorithms.search.Solution
      * @see Solution
      */
     Solution solve(ISearchable domain);

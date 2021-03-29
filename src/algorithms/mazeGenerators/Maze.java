@@ -2,15 +2,34 @@ package algorithms.mazeGenerators;
 
 import java.util.ArrayList;
 
-public class Maze {
+/**
+ *    The maze is represented as a 2D char array.
+ *     Zero ('0') - Pass
+ *     One ('1') - Wall
+ *     Start ('S') - The starting position
+ *     End ('E') - The "Goal" position
+ *
+ * @author Eden_Hai
+ * @version 1.0
+ * @since 29-03-2021
+ */
+public class Maze
+{
     private int m_rowSize;
     private int m_colSize;
     private int[][] m_maze;
     Position m_start;
     Position m_end;
 
-    public Maze(int rowSize,int colSize,Position start,Position end){
-        //todo:if row or cols are below or eql to 0
+    /**
+     * Constructor
+     * @param rowSize - the number of rows
+     * @param colSize - the number of columns
+     * @param start   - the start position of maze
+     * @param end     - the goal position of maze
+     */
+    public Maze(int rowSize,int colSize,Position start,Position end)
+    {
         m_rowSize = rowSize;
         m_colSize = colSize;
         m_maze = new int[rowSize][colSize];
@@ -21,37 +40,64 @@ public class Maze {
     protected void addWall(int row,int col){
         m_maze[row][col] = 1;
     }
+
     protected  void breakWall(int row,int col){
         m_maze[row][col] = 0;
     }
+
     public int getColSize(){
         return m_colSize;
     }
-    public int getRowSize(){
 
-        return m_rowSize;
-    }
+    public int getRowSize(){ return m_rowSize; }
 
-    public Position getGoalPosition() {
-        return m_end;
-    }
+    public int[][] getMaze() { return m_maze;}
+    /**
+     * This method return the start of the maze
+     *
+     * @return Position
+     */
+    public Position getStartPosition() { return m_start; }
 
-    public Position getStartPosition() {
-        return m_start;
-    }
-    public void print(){
-        for (int i =0;i<m_rowSize;i++){
-            for (int j = 0 ;j<m_colSize;j++){
-                System.out.print(m_maze[i][j]);
-                if(j!=m_colSize-1){
+
+    /**
+     * This method return the goal of the maze
+     *
+     * @return Position
+     */
+    public Position getGoalPosition() { return m_end; }
+
+
+    /**
+     * This method print the maze where:
+     * pass mark with "0"
+     * wall mark with "1"
+     * start mark with "S"
+     * goal mark with "E"
+     */
+    public void print()
+    {
+        for (int i = 0; i < m_rowSize; i++)
+        {
+            for (int j = 0; j < m_colSize; j++)
+            {
+                if (i == m_start.getRowIndex() && j == m_start.getColumnIndex())
+                    System.out.print("S");
+
+                else if (i == m_end.getRowIndex() && j == m_end.getColumnIndex())
+                    System.out.print("E");
+
+                else if (m_maze[i][j] == 0)
+                    System.out.print("0");
+
+                else if(m_maze[i][j] == 1)
+                    System.out.print("1");
+
+                if (j != getColSize()-1)
                     System.out.print(",");
-                }
             }
-            System.out.println("");
-
+            System.out.println();
         }
-
-
     }
 
     /**
@@ -66,16 +112,15 @@ public class Maze {
     }
 
     /**
+     * checks if p is a valid position within the maze
      * @param p
      * @return
-     * checks if p is a valid position within the maze
      */
     protected boolean isPositionInRange(Position p){
         if (p.getColumnIndex()<0 || p.getRowIndex()<0 || p.getColumnIndex()>=m_colSize || p.getRowIndex()>=m_rowSize){
             return false;
         }
         return true;
-
     }
 
     /**
@@ -113,8 +158,8 @@ public class Maze {
      * @param p
      * @return
      */
-    protected ArrayList<Position> getAllNeighbors(Position p){
-
+    protected ArrayList<Position> getAllNeighbors(Position p)
+        {
         ArrayList<Position> l = new ArrayList<Position>();
         if ((p.getRowIndex()<m_rowSize-1 ) && (m_maze[p.getRowIndex() + 1][ p.getColumnIndex()] == 1) ) {
             l.add(new Position(p.getRowIndex() + 1,  p.getColumnIndex()));
@@ -130,5 +175,4 @@ public class Maze {
         }
         return l;
     }
-
 }

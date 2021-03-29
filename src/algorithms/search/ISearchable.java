@@ -2,6 +2,13 @@ package algorithms.search;
 
 import java.util.ArrayList;
 
+/**
+ * An interface of algorithms.search structs that provides a common functions.
+ *
+ * @author Eden_Hai
+ * @version 1.0
+ * @since 29-03-2021
+ */
 public interface ISearchable
 {
     /**
