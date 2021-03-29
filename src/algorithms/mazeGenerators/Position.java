@@ -22,6 +22,12 @@ public class Position {
     public String toString(){
         return "{"+rowIndex+","+colIndex+"}";
     }
+
+    /**
+     * @param other
+     * @return
+     * compare 2 positions
+     */
     @Override
     public boolean equals(Object other){
         if (this.colIndex==((Position)other).getColumnIndex() && this.rowIndex==((Position)other).getRowIndex()){

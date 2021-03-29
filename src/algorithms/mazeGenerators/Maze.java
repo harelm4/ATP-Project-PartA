@@ -17,6 +17,7 @@ public class Maze {
         m_start = start;
         m_end = end;
     }
+
     protected void addWall(int row,int col){
         m_maze[row][col] = 1;
     }
@@ -52,6 +53,10 @@ public class Maze {
 
 
     }
+
+    /**
+     * make all cells in the maze 1
+     */
     protected void makeAllWalls(){
         for (int i =0;i<m_rowSize;i++) {
             for (int j = 0; j < m_colSize; j++) {
@@ -59,6 +64,12 @@ public class Maze {
             }
         }
     }
+
+    /**
+     * @param p
+     * @return
+     * checks if p is a valid position within the maze
+     */
     protected boolean isPositionInRange(Position p){
         if (p.getColumnIndex()<0 || p.getRowIndex()<0 || p.getColumnIndex()>=m_colSize || p.getRowIndex()>=m_rowSize){
             return false;
@@ -66,12 +77,25 @@ public class Maze {
         return true;
 
     }
+
+    /**
+     * @param p
+     * @return
+     * checks if p is a position on the edge of the maze
+     */
     protected boolean isPositionOnEdges(Position p){
         if (p.getColumnIndex()==m_colSize-1 || p.getColumnIndex()==0|| p.getRowIndex()==m_rowSize-1||p.getRowIndex()==0){
             return true;
         }
         return false;
     }
+
+    /**
+     * rightDownNeighbor - a neighbor of p with has the value of 1 and located down or right in relation to p
+     * @param p
+     * @return a list
+     *
+     */
     protected ArrayList<Position> getRightDownNeighbors(Position p){
 
         ArrayList<Position> l = new ArrayList<Position>();
@@ -83,6 +107,12 @@ public class Maze {
         }
         return l;
     }
+
+    /**
+     * return a list of the neighbors of p eitch has the value of 1
+     * @param p
+     * @return
+     */
     protected ArrayList<Position> getAllNeighbors(Position p){
 
         ArrayList<Position> l = new ArrayList<Position>();
