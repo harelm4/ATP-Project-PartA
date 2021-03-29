@@ -9,9 +9,10 @@ import java.util.Objects;
  */
 public abstract class AState
 {
-    private String state;
-    private double cost;
-    private AState cameFrom;
+    //should be protected because its an abstract class
+    protected String state;
+    protected double cost;
+    protected AState cameFrom;
 
     /**
      * Constructor
