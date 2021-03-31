@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Eden_Hai
  * @version 1.0
- * @since 29-03-2021
+ * @since 31-03-2021
  */
 public class Maze
 {
@@ -37,6 +37,14 @@ public class Maze
         m_end = end;
     }
 
+    public Maze(int[][] maze, Position start, Position goal) {
+        this.m_maze = maze;
+        this.m_start = start;
+        this.m_end = goal;
+        this.m_rowSize = maze.length;
+        this.m_colSize = maze[0].length;
+    }
+
     protected void addWall(int row,int col){
         m_maze[row][col] = 1;
     }
@@ -52,6 +60,7 @@ public class Maze
     public int getRowSize(){ return m_rowSize; }
 
     public int[][] getMaze() { return m_maze;}
+
     /**
      * This method return the start of the maze
      *
@@ -79,10 +88,8 @@ public class Maze
     {
         for (int i = 0; i < m_rowSize; i++)
         {
-            System.out.printf("{");
             for (int j = 0; j < m_colSize; j++)
             {
-
                 if (i == m_start.getRowIndex() && j == m_start.getColumnIndex())
                     System.out.print("S");
 
@@ -98,7 +105,7 @@ public class Maze
                 if (j != getColSize()-1)
                     System.out.print(",");
             }
-            System.out.println("}");
+            System.out.println();
         }
     }
 
@@ -113,6 +120,17 @@ public class Maze
         }
     }
 
+    /**
+     * checks if p is a valid position within the maze
+     * @param p
+     * @return
+     */
+    protected boolean isPositionInRange(Position p){
+        if (p.getColumnIndex()<0 || p.getRowIndex()<0 || p.getColumnIndex()>=m_colSize || p.getRowIndex()>=m_rowSize){
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @param p
