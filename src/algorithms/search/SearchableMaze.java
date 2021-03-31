@@ -31,7 +31,7 @@ public class SearchableMaze implements ISearchable
     public AState getGoalPosition() { return maze.getGoalPosition() == null ? null : new MazeState(maze.getGoalPosition(), 0, null); }
 
     @Override
-    public ArrayList<AState> getAllPossibleStates(AState curState)
+    public ArrayList<AState> getAllSuccessors(AState curState)
     {
         if (!(curState instanceof MazeState)) return null;
 
@@ -69,7 +69,7 @@ public class SearchableMaze implements ISearchable
 
     private boolean isMoveValid(int row, int col)
     {
-        try { return maze.getMaze()[row][col - 1] == 0; }
+        try { return maze.getMaze()[row][col] == 0; }
         catch (Exception e) { return false; }
     }
 }

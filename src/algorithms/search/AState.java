@@ -12,7 +12,7 @@ public abstract class AState
     //should be protected because its an abstract class
     protected String state;
     protected double cost;
-    protected AState cameFrom;
+    private AState cameFrom;
 
     /**
      * Constructor

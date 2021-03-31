@@ -6,10 +6,17 @@ import java.util.Stack;
 
 
 public class MyMazeGenerator extends AMazeGenerator {
-    /**
-     * maze generator based on the iterative algorithm (Wikipedia)
-     */
+
+
     @Override
+    public Maze generate(int rowSize, int colSize) {
+        return null;
+    }
+
+    /**
+     * maze generator based on the iterative algorithm (DFS maze generator)
+     */
+/*    @Override
     public Maze generate(int rowSize, int colSize) {
         if(rowSize<=0 || colSize<=0 ){
             return null;
@@ -26,20 +33,29 @@ public class MyMazeGenerator extends AMazeGenerator {
         ArrayList<Position> neighbors;
         Position cur,n = start;
         Random r = new Random();
-        while (!stack.isEmpty() && !n.equals(end) ){
+        while (!stack.isEmpty() ){
             cur = stack.pop();
             neighbors = m.getAllNeighbors(cur);
-            if (!neighbors.isEmpty()){
+            if (!neighbors.isEmpty() && !visited.containsAll(neighbors)){
                 stack.push(cur);
                 n =neighbors.get(r.nextInt(neighbors.size()));
+                for (Position p:neighbors
+                     ) {
+
+                    visited.add(p);
+                    stack.push(p);
+
+                }
                 m.breakWall(n.getRowIndex(),n.getColumnIndex());
-                visited.add(n);
-                stack.push(n);
+
+
+
 
 
             }
         }
 
+
         return m;
-    }
+    }*/
 }

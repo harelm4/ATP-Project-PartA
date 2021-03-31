@@ -18,4 +18,5 @@ public class Solution
     public Solution(ArrayList<AState> path) { this.path = path; }
 
     public ArrayList<AState> getSolutionPath() {return this.path == null ? new ArrayList<AState>() : this.path;}
+    protected void setSolutionPath(ArrayList<AState> s){path= s;}
 }

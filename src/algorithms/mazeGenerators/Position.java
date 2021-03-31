@@ -5,6 +5,7 @@ public class Position
     private int rowIndex;
     private int colIndex;
 
+
     /**
      * Constructor
      *
@@ -33,4 +34,8 @@ public class Position
 
     @Override
     public String toString() { return "{" + rowIndex + "," + colIndex + "}"; }
+
+
+
+
 }

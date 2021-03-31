@@ -32,5 +32,5 @@ public interface ISearchable
      * @param state is the current state.
      * @return ArrayList<algorithms.search.AState>
      */
-    ArrayList<AState> getAllPossibleStates(AState state);
+    ArrayList<AState> getAllSuccessors(AState state);
 }

@@ -45,7 +45,14 @@ public class SimpleMazeGenerator extends AMazeGenerator {
             nlist = m.getRightDownNeighbors(neighbor);
 
         }
-
+        m=randomZeros(end,m);
+        return m;
+    }
+    private Maze randomZeros(Position end,Maze m ){
+        Random r  = new Random();
+        for(int i=0 ; i<(int)r.nextInt(end.getRowIndex())*end.getColumnIndex()/2;i++){
+            m.breakWall(r.nextInt(end.getRowIndex()),r.nextInt(end.getColumnIndex()));
+        }
         return m;
     }
 }
