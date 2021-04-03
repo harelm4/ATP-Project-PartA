@@ -9,6 +9,7 @@ import java.util.Random;
 public class MyMaze3DGenerator extends AMaze3DGenerator {
     private ArrayList<Position3D> walls;
 
+//todo:generate 500X500X500 3D maze in under a minuet
     /**
      * Randomly generating a 3D maze using Prims algorithm
      * @param rowSize
@@ -126,7 +127,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
             }
 
         }
-        maze[depIndex][rowIndex][colIndex] = 0;//todo:ask eden why
+        maze[depIndex][rowIndex][colIndex] = 0;//todo:is this ok?
         Position3D goal = new Position3D(rowIndex,colIndex,depIndex);
         return goal;
     }
