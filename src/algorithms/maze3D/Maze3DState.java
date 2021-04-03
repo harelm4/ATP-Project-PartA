@@ -1,11 +1,12 @@
-package algorithms.search;
+package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.AState;
+import algorithms.search.MazeState;
 
-public class MazeState extends AState
-{
-    Position curPosition;
+public class Maze3DState extends AState {
+
+    Position3D curPosition;
 
     /**
      * Constructor
@@ -14,13 +15,13 @@ public class MazeState extends AState
      * @param cost - cost to reach this state
      * @param parent - patent state
      */
-    public MazeState(Position curPosition, double cost, AState parent)
+    public Maze3DState(Position3D curPosition, double cost, AState parent)
     {
         super(curPosition.toString(), cost, parent);
         this.curPosition = curPosition;
     }
 
-    public Position getPosition() { return curPosition; }
+    public Position3D getPosition() { return curPosition; }
 
     @Override
     public String toString() { return curPosition.toString(); }
@@ -28,12 +29,10 @@ public class MazeState extends AState
     @Override
     public boolean equals(Object o) {
         if (o==null)return false;
-        MazeState m = (MazeState) o;
+        Maze3DState m = (Maze3DState) o;
         if ( m.getPosition().equals(curPosition)){
             return true;
         }
         return false;
     }
-
-
 }

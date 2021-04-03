@@ -162,26 +162,6 @@ public class Maze
         return l;
     }
 
-    /**
-     * return a list of the neighbors of p eitch has the value of 1
-     * @param p
-     * @return
-     */
-    protected ArrayList<Position> getAllNeighbors(Position p)
-        {
-        ArrayList<Position> l = new ArrayList<Position>();
-        if ((p.getRowIndex()<m_rowSize-1 ) && (m_maze[p.getRowIndex() + 1][ p.getColumnIndex()] == 1) ) {
-            l.add(new Position(p.getRowIndex() + 1,  p.getColumnIndex()));
-        }
-        if (p.getColumnIndex()<m_colSize-1&& m_maze[p.getRowIndex()][ p.getColumnIndex()+1]==1) {
-            l.add(new Position(p.getRowIndex(),  p.getColumnIndex() + 1));
-        }
-        if ((p.getRowIndex()>0 )&& p.getColumnIndex()<m_colSize-1 && p.getRowIndex()<m_rowSize-1 && (m_maze[p.getRowIndex() - 1][ p.getColumnIndex()] == 1) ) {
-            l.add(new Position(p.getRowIndex() -1,  p.getColumnIndex()));
-        }
-        if (p.getColumnIndex()>0 && p.getColumnIndex()<m_colSize-1 && p.getRowIndex()<m_rowSize-1 && m_maze[p.getRowIndex()][ p.getColumnIndex()-1]==1) {
-            l.add(new Position(p.getRowIndex(),  p.getColumnIndex() -1));
-        }
-        return l;
-    }
+
+
 }

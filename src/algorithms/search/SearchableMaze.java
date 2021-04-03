@@ -23,6 +23,7 @@ public class SearchableMaze implements ISearchable
      * @param maze
      */
     public SearchableMaze(Maze maze) { this.maze = maze; }
+    public Maze getMaze(){return maze;}
 
     @Override
     public AState getStartPosition() { return maze.getStartPosition() == null ? null : new MazeState(maze.getStartPosition(), 0, null); }
@@ -30,6 +31,10 @@ public class SearchableMaze implements ISearchable
     @Override
     public AState getGoalPosition() { return maze.getGoalPosition() == null ? null : new MazeState(maze.getGoalPosition(), 0, null); }
 
+    /**
+     returns the number of neighbors that has the value of 0 and in the valid range of the maze
+
+     */
     @Override
     public ArrayList<AState> getAllSuccessors(AState curState)
     {
@@ -63,13 +68,18 @@ public class SearchableMaze implements ISearchable
 
         boolean left_up = isMoveValid(row - 1, col - 1);
         if (left_up) { allPossibleState.add(new MazeState(new Position(row - 1, col - 1), curState.cost + 15, curState)); }
-
+        AState end = new MazeState(maze.getGoalPosition(), 1, curState);
+        if(allPossibleState.contains(end)){allPossibleState.add(end);}
         return allPossibleState;
     }
 
+    /**
+     returns the number of neighbors that has the value of 0 and in the valid range of the maze
+
+     */
     private boolean isMoveValid(int row, int col)
     {
-        try { return maze.getMaze()[row][col] == 0; }
+        try { return maze.getMaze()[row][col] == 0 ; }
         catch (Exception e) { return false; }
     }
 }

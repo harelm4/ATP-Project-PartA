@@ -9,7 +9,7 @@ package algorithms.search;
  */
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 {
-    private int visitedNodes; // how many nodes we are evaluated by the algorithm
+    protected int visitedNodes; // how many nodes we are evaluated by the algorithm
 
     @Override
     public abstract Solution solve(ISearchable domain);

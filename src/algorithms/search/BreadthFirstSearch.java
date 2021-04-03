@@ -1,8 +1,6 @@
 package algorithms.search;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Queue;
+import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm
 {
@@ -18,21 +16,32 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
      */
     @Override
     public Solution solve(ISearchable domain) {
+        // 2      let Q be a queue
+        // 3      label root as discovered
+        // 4      Q.enqueue(root)
         ArrayDeque<AState> queue = new ArrayDeque<AState>();
-        ArrayList<AState> discovered = new ArrayList<AState>();
-        discovered.add(domain.getStartPosition());
+        Hashtable<String,AState> discovered = new Hashtable<String,AState>();
+        discovered.put((domain.getStartPosition()).toString(),domain.getStartPosition());
         queue.add(domain.getStartPosition());
         AState cur=null;
         ArrayList<AState> neighbors = new ArrayList<AState>();
         while (!queue.isEmpty()){
-            cur = queue.getFirst();
-            if (cur == domain.getGoalPosition()){
+            //v := Q.dequeue()
+            cur = queue.removeFirst();
+            // 7          if v is the goal then
+            // 8              return v
+            if (cur.equals(domain.getGoalPosition())){
                 break;
             }
+            neighbors = domain.getAllSuccessors(cur);
+            // 9          for all edges from v to w in G.adjacentEdges(v) do
+            //10              if w is not labeled as discovered then
+            //11                  label w as discovered
+            //12                  Q.enqueue(w)
             for (AState n:
                  neighbors) {
-                if(!discovered.contains(n)){
-                    discovered.add(n);
+                if(!discovered.containsKey(n.toString())){
+                    discovered.put(n.toString(),n);
                     queue.addLast(n);
                     n.setCameFrom(cur);
                 }
@@ -46,7 +55,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
             cur =cur.getCameFrom();
 
         }
-        return new Solution(solPath);
+        solPath.add(cur);
+        Collections.reverse(solPath);
+        visitedNodes=discovered.size();
+        return new Solution( solPath);
 
     }
 }

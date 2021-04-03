@@ -89,7 +89,10 @@ public class MyMazeGenerator extends AMazeGenerator
         int colIndex = start.getColumnIndex();
         while (start.getRowIndex() == rowIndex || start.getColumnIndex() == colIndex || maze[rowIndex][colIndex] == 1)
         {
+            //pick a random row
             rowIndex = r.nextInt(maze.length);
+            //if the row is first or last-pick a random cell
+            //else-pick col 0 or end col randomly
             if (rowIndex == 0 || rowIndex == maze.length - 1)
             {
                 colIndex = r.nextInt(maze[0].length);
@@ -102,7 +105,10 @@ public class MyMazeGenerator extends AMazeGenerator
         Position goal = new Position(rowIndex,colIndex);
         return goal;
     }
+    /**
+     returns the number of neighbors that has the value of 0 and in the valid range of the maze
 
+     */
     private int checkNumberOfVisitedNeighbors(int[][] maze, Position current)
     {
         int numOfValidNeighbors = 0;
@@ -117,6 +123,16 @@ public class MyMazeGenerator extends AMazeGenerator
         return numOfValidNeighbors;
     }
 
+    /**
+     * @param maze
+     * @param pos
+     * @param limit
+     * @param row
+     * @param col
+     *
+     *
+     * addValidAdjacentCells(maze, 0, current.getRowIndex(), current.getRowIndex() - 1, current.getColumnIndex());
+     */
     private void addValidAdjacentCells(int[][] maze, int pos, int limit, int row, int col)
     {
         if (pos < limit && maze[row][col] == 1)

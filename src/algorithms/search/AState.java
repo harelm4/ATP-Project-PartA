@@ -50,4 +50,6 @@ public abstract class AState
     public void setCameFrom(AState cameFrom) {
         this.cameFrom = cameFrom;
     }
+
+    public abstract boolean equals(Object o);
 }
