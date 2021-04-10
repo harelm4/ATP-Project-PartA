@@ -1,6 +1,5 @@
 package algorithms.search;
 
-import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
 public class MazeState extends AState
@@ -14,26 +13,30 @@ public class MazeState extends AState
      * @param cost - cost to reach this state
      * @param parent - patent state
      */
-    public MazeState(Position curPosition, double cost, AState parent)
+    public MazeState(Position curPosition, int cost, AState parent)
     {
-        super(curPosition.toString(), cost, parent);
+        super(cost, parent);
         this.curPosition = curPosition;
     }
 
     public Position getPosition() { return curPosition; }
 
+    public void setPosition(Position curPosition) { this.curPosition = curPosition;}
+
     @Override
     public String toString() { return curPosition.toString(); }
 
+    /**
+     * Compare between two mazeStates based on the position
+     * @param o - the other mazeState to check equality with
+     * @return true if equals; otherwise false
+     */
     @Override
-    public boolean equals(Object o) {
-        if (o==null)return false;
-        MazeState m = (MazeState) o;
-        if ( m.getPosition().equals(curPosition)){
-            return true;
-        }
-        return false;
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        MazeState mazeState = (MazeState) o;
+        return mazeState.getPosition().equals(curPosition);
     }
-
-
 }

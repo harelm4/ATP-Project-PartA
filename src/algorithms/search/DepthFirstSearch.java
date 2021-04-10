@@ -1,66 +1,64 @@
-
 package algorithms.search;
-
-import algorithms.mazeGenerators.Position;
 
 import java.util.*;
 
+/**
+ * This class uses the 'DFS algorithm' to solve the problem.
+ * It Implements the algorithm data structure as a Stack.
+ *
+ * @author Eden_Hai
+ * @version 2.0
+ * @since 08-04-2021
+ */
 public class DepthFirstSearch extends ASearchingAlgorithm
 {
-    @Override
-    public String getName() {return "Depth First Search";}
+    private Stack<AState> stack;
 
-    /**
-     * DFS scanto find path in a Searchable object
-     * @param domain
-     * @return
-     */
+    public DepthFirstSearch()
+    {
+        this.numberOfNodesEvaluated = 0;
+        this.stack = new Stack<>();
+        this.visitedCells = new HashMap<>();
+    }
+
     @Override
-    public Solution solve(ISearchable domain) {
-        Stack<AState> stack = new Stack<AState>();
-        Hashtable<String,AState> visited = new Hashtable<String, AState>();
-        //add the start node in the stack and mark as visited.
-        visited.put(domain.getStartPosition().toString(),domain.getStartPosition());
+    public Solution solve(ISearchable domain)
+    {
+        if (domain == null) return null;
+
+        /* Add the start position to stack. */
         stack.push(domain.getStartPosition());
-        AState cur=null;
-        Random r = new Random();
-        ArrayList<AState>  neighbors;
-        AState tmp;
-        while(!stack.isEmpty() ){
-            // Take the node at the top of the stack.
-            cur = stack.pop();
-            if (cur.equals(domain.getGoalPosition())){
-                break;
-            }
-            neighbors =domain.getAllSuccessors(cur);
-            if (!visited.contains(cur)){
-                visited.put(cur.toString(),cur);
-            }
-            for(AState a:neighbors){
-                if (!visited.containsKey(a.toString())){
-                    stack.push(a);
-                    a.setCameFrom(cur);
-                    visited.put(a.toString(),a);
+
+        /* Mark the start position as visited. */
+        visitedCells.put(domain.getStartPosition().toString(), domain.getStartPosition());
+
+        AState curState = null;
+
+        while (!stack.isEmpty())
+        {
+            /* Pop the current state from top of the stack. */
+            curState = stack.pop();
+
+            /* If curState is the goal position return the solution path. */
+            if (curState.equals(domain.getGoalPosition())) break;
+
+            ArrayList<AState> neighbors = domain.getAllSuccessors(curState);
+
+            for (AState state : neighbors)
+            {
+                if (!visitedCells.containsKey(state.toString()))
+                {
+                    stack.push(state);
+                    state.setCameFrom(curState);
+                    visitedCells.put(state.toString(), state);
+                    numberOfNodesEvaluated++;
                 }
-
-            }
-            }
-
-
-        ArrayList<AState> solPath = new ArrayList<AState>();
-        while(!cur.equals(null)){
-            solPath.add(cur);
-            cur = cur.getCameFrom();
-            if(cur == null){
-                break;
             }
         }
-        solPath.add(cur);
-        Collections.reverse(solPath);
-        visitedNodes=visited.size();
-        return new Solution( solPath);
-
-
+        return backtracePath(curState);
     }
+
+    @Override
+    public String getName() {return "DepthFirstSearch";}
 }
 

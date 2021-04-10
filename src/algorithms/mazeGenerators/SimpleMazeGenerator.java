@@ -1,56 +1,67 @@
 package algorithms.mazeGenerators;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SimpleMazeGenerator extends AMazeGenerator {
-
-    /**
-     * @param rowSize
-     * @param colSize
-     * @return
-     * generates a random walls maze
-     */
+/**
+ * A class that generates a simple maze
+ *
+ * @author Eden_Hai
+ * @version 2.0
+ * @since 07-04-2021
+ */
+public class SimpleMazeGenerator extends AMazeGenerator
+{
     @Override
-    public Maze generate(int rowSize, int colSize) {
-        if(rowSize<=0 || colSize<=0 ){
-            return null;
-        }
-        Position start = new Position(0,0);
-        Position end = new Position(rowSize-1,colSize-1);
-        Maze m = new Maze(rowSize,colSize,start,end);
-        if(!m.isPositionOnEdges(start)||!m.isPositionOnEdges(end)){
-            return null;
-        }
-        Random rand =new Random();
-        ArrayList<Position> nnlist = new ArrayList<Position>();//temp neighbors neighbor list
-        ArrayList<Position> mlist = new ArrayList<Position>();//list of visited cells
-        ArrayList<Position> nlist = new ArrayList<Position>();//list of neighbors to choose from
-        Random ran = new Random();
-        m.makeAllWalls();
-        m.breakWall(start.getRowIndex(),start.getColumnIndex());
-        mlist.add(start);
-        nlist= m.getRightDownNeighbors(start);
+    public Maze generate(int rowSize, int colSize)
+    {
+        if (rowSize < 2 || colSize < 2) { return null; }
+
+        /* Create a maze with no walls */
+        Maze simpleMaze = new Maze(rowSize, colSize);
+
+        Random random = new Random();
+//
+////        for (int j = 0; j<rowSize/2; j++) {
+//        for (int i = 0; i < rowSize; i++)
+//        {
+//            simpleMaze.addWall(i, random.nextInt(colSize));
+//        }
+////    }
+//
+//        return simpleMaze;
+        Position start = simpleMaze.getStartPosition();
+        Position goal = simpleMaze.getGoalPosition();
+
+        if (simpleMaze.isPositionOnEdges(start) || simpleMaze.isPositionOnEdges(goal)) { return null; }
+
+        Random rand = new Random();
+
+        /* Start with a grid full of walls */
+        simpleMaze.makeAllWalls();
+        simpleMaze.breakWall(start.getRowIndex(), start.getColumnIndex());
+
+        ArrayList<Position> visitedCells = new ArrayList<>(); // list of visited cells
+        visitedCells.add(start);
+        ArrayList<Position> neighborsList = simpleMaze.getRightDownNeighbors(start); // list of neighbors to choose from
         Position neighbor;
         int i;
-        while(!mlist.contains(end)&& nlist.size()!=0) {
-            i = ran.nextInt(nlist.size());
-            if (i<0){
-                break;
-            }
-            neighbor = nlist.get(i);
-            mlist.add(neighbor);
-            m.breakWall(neighbor.getRowIndex(),neighbor.getColumnIndex());
-            nlist = m.getRightDownNeighbors(neighbor);
+        while (!visitedCells.contains(goal) && neighborsList.size() != 0)
+        {
+            i = rand.nextInt(neighborsList.size());
+            neighbor = neighborsList.get(i);
+            visitedCells.add(neighbor);
+            simpleMaze.breakWall(neighbor.getRowIndex(), neighbor.getColumnIndex());
+            neighborsList = simpleMaze.getRightDownNeighbors(neighbor);
 
         }
-        m=randomZeros(end,m);
-        return m;
+        return randomZeros(goal, simpleMaze);
     }
-    private Maze randomZeros(Position end,Maze m ){
+
+    private Maze randomZeros(Position end, Maze m)
+    {
         Random r  = new Random();
-        for(int i=0 ; i<(int)r.nextInt(end.getRowIndex())*end.getColumnIndex()/2;i++){
+        for(int i=0 ; i<end.getRowIndex()*end.getColumnIndex();i++){
             m.breakWall(r.nextInt(end.getRowIndex()),r.nextInt(end.getColumnIndex()));
         }
         return m;
