@@ -19,7 +19,7 @@ public class RunSearchOnMaze3D {
 
         Maze3D maze;
         for(int i=0 ; i<20;i++){
-            maze = mg.generate(7,7,3);
+            maze = mg.generate(100,100,100);
             SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
 //        solveProblem(searchableMaze, new BreadthFirstSearch());
 //        solveProblem(searchableMaze, new DepthFirstSearch());
