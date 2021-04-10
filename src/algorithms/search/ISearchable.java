@@ -29,8 +29,8 @@ public interface ISearchable
 
     /**
      * This method return a list of legal states that can be reached from the current state.
-     * @param state is the current state.
-     * @return ArrayList<algorithms.search.AState>
+     * @param state - the current state.
+     * @return All possible neighbors states
      */
     ArrayList<AState> getAllSuccessors(AState state);
 }

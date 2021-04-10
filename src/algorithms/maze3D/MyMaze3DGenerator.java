@@ -93,10 +93,10 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         int depIndex = random.nextInt(dep);
 
         if (rowIndex == 0 || rowIndex == maze[0].length - 1|| depIndex==maze.length-1|| depIndex==0)
-            colIndex = random.nextInt(maze[0].length);
+            colIndex = random.nextInt(col);
 
         else
-            colIndex = ((int) Math.round(Math.random())) * (maze[0].length - 1);
+            colIndex = ((int) Math.round(Math.random())) * (col - 1);
 
         maze[depIndex][rowIndex][colIndex] = 0;
 

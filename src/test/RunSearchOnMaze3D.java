@@ -22,8 +22,8 @@ public class RunSearchOnMaze3D {
             maze = mg.generate(100,100,100);
             SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
 //        solveProblem(searchableMaze, new BreadthFirstSearch());
-//        solveProblem(searchableMaze, new DepthFirstSearch());
-            solveProblem(searchableMaze, new BestFirstSearch());
+        solveProblem(searchableMaze, new DepthFirstSearch());
+//            solveProblem(searchableMaze, new BestFirstSearch());
         }
 
     }

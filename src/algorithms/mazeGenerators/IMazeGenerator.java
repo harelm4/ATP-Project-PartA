@@ -1,7 +1,27 @@
 package algorithms.mazeGenerators;
 
-public interface IMazeGenerator {
+/**
+ * An interface class of generating a maze
+ *
+ * @author Eden_Hai
+ * @version 1.0
+ * @since 31-03-2021
+ */
+public interface IMazeGenerator
+{
+    /**
+     * This method generate a new maze by the row and column parameters.
+     * @param rowSize - the number of rows in the maze
+     * @param colSize - the number of columns in the maze
+     * @return A maze
+     */
+    Maze generate(int rowSize, int colSize);
 
-    public Maze generate(int rowSize,int colSize);
-    public long measureAlgorithmTimeMillis(int rowSize,int colSize);
+    /**
+     * This method measures the time it takes to generate a maze.
+     * @param rowSize - the number of rows in the maze
+     * @param colSize - the number of columns in the maze
+     * @return maze generation time (ms).
+     */
+    long measureAlgorithmTimeMillis(int rowSize, int colSize);
 }

@@ -15,9 +15,9 @@ public class Maze3DState extends AState {
      * @param cost - cost to reach this state
      * @param parent - patent state
      */
-    public Maze3DState(Position3D curPosition, double cost, AState parent)
+    public Maze3DState(Position3D curPosition, int cost, AState parent)
     {
-        super(curPosition.toString(), cost, parent);
+        super(cost, parent);
         this.curPosition = curPosition;
     }
 
