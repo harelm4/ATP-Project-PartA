@@ -12,6 +12,8 @@ import java.util.Random;
  */
 public class SimpleMazeGenerator extends AMazeGenerator
 {
+    private ArrayList<Position> visitedCells;
+
     @Override
     public Maze generate(int rowSize, int colSize)
     {
@@ -21,48 +23,63 @@ public class SimpleMazeGenerator extends AMazeGenerator
         Maze simpleMaze = new Maze(rowSize, colSize);
 
         Random random = new Random();
-//
-////        for (int j = 0; j<rowSize/2; j++) {
-//        for (int i = 0; i < rowSize; i++)
-//        {
-//            simpleMaze.addWall(i, random.nextInt(colSize));
-//        }
-////    }
-//
-//        return simpleMaze;
         Position start = simpleMaze.getStartPosition();
         Position goal = simpleMaze.getGoalPosition();
 
         if (simpleMaze.isPositionOnEdges(start) || simpleMaze.isPositionOnEdges(goal)) { return null; }
 
-        Random rand = new Random();
-
         /* Start with a grid full of walls */
         simpleMaze.makeAllWalls();
         simpleMaze.breakWall(start.getRowIndex(), start.getColumnIndex());
 
-        ArrayList<Position> visitedCells = new ArrayList<>(); // list of visited cells
+
+        visitedCells = new ArrayList<>(); // list of visited cells
+
         visitedCells.add(start);
-        ArrayList<Position> neighborsList = simpleMaze.getRightDownNeighbors(start); // list of neighbors to choose from
+
+        ArrayList<Position> neighborsList = getRightDownNeighbors(simpleMaze, start); // list of neighbors to choose from
         Position neighbor;
         int i;
-        while (!visitedCells.contains(goal) && neighborsList.size() != 0)
+        while (!visitedCells.contains(goal))
         {
-            i = rand.nextInt(neighborsList.size());
+            i = random.nextInt(neighborsList.size());
             neighbor = neighborsList.get(i);
             visitedCells.add(neighbor);
             simpleMaze.breakWall(neighbor.getRowIndex(), neighbor.getColumnIndex());
-            neighborsList = simpleMaze.getRightDownNeighbors(neighbor);
-
+            neighborsList = getRightDownNeighbors(simpleMaze, neighbor);
         }
         return randomZeros(goal, simpleMaze);
     }
 
-    private Maze randomZeros(Position end, Maze m)
+    /**
+     * rightDownNeighbor - a neighbor of p with has the value of 1 and located down or right in relation to p
+     *
+     * @param p - the position that checked
+     * @return A list of the right or down neighbors of p
+     */
+    protected ArrayList<Position> getRightDownNeighbors (Maze maze, Position p)
     {
-        Random r  = new Random();
-        for(int i=0 ; i<end.getRowIndex()*end.getColumnIndex();i++){
-            m.breakWall(r.nextInt(end.getRowIndex()),r.nextInt(end.getColumnIndex()));
+        ArrayList<Position> l = new ArrayList<>();
+
+        if ((p.getRowIndex() < maze.getRowSize() - 1) && (maze.getMaze()[p.getRowIndex() + 1][p.getColumnIndex()] == 1)) { l.add(new Position(p.getRowIndex() + 1, p.getColumnIndex())); }
+
+        if (p.getColumnIndex() < maze.getColSize() - 1 && maze.getMaze()[p.getRowIndex()][p.getColumnIndex() + 1] == 1) { l.add(new Position(p.getRowIndex(), p.getColumnIndex() + 1)); }
+
+        return l;
+    }
+
+
+    private Maze randomZeros(Position goal, Maze m)
+    {
+        Random r = new Random();
+        int row, col;
+        for (int i = 0; i < goal.getRowIndex() * goal.getColumnIndex() ; i++)
+        {
+            row = r.nextInt(goal.getRowIndex()+1);
+            col = r.nextInt(goal.getColumnIndex()+1);
+            Position position = new Position(row, col);
+            if (!visitedCells.contains(position))
+                m.breakWall(row, col);
         }
         return m;
     }

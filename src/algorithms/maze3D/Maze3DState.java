@@ -1,11 +1,9 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
-import algorithms.search.MazeState;
 
-public class Maze3DState extends AState {
-
+public class Maze3DState extends AState
+{
     Position3D curPosition;
 
     /**
@@ -26,13 +24,19 @@ public class Maze3DState extends AState {
     @Override
     public String toString() { return curPosition.toString(); }
 
+    /**
+     * Compare between two mazeStates based on the position
+     *
+     * @param obj - the other mazeState to check equality with
+     * @return true if equals; otherwise false
+     */
     @Override
-    public boolean equals(Object o) {
-        if (o==null)return false;
-        Maze3DState m = (Maze3DState) o;
-        if ( m.getPosition().equals(curPosition)){
-            return true;
-        }
-        return false;
+    public boolean equals(Object obj)
+    {
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
+        Maze3DState other = (Maze3DState) obj;
+        return other.getPosition().equals(curPosition);
     }
 }

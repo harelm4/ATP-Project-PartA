@@ -1,18 +1,16 @@
 package test;
 
-import algorithms.maze3D.IMazeGenerator3D;
+import algorithms.maze3D.IMaze3DGenerator;
 import algorithms.maze3D.Maze3D;
 import algorithms.maze3D.MyMaze3DGenerator;
 import algorithms.maze3D.SearchableMaze3D;
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
 import algorithms.search.*;
 
 import java.util.ArrayList;
 
 public class RunSearchOnMaze3D {
     public static void main(String[] args) {
-        IMazeGenerator3D mg = new MyMaze3DGenerator();
+        IMaze3DGenerator mg = new MyMaze3DGenerator();
        // Maze3D maze = mg.generate(7,7,3);
        // Maze maze = new Maze(new int[][] {{0,0,0,0,0,0,0},{0,1,1,1,1,1,1},{0,0,0,0,0,1,0},{1,1,0,1,1,1,0},{0,0,0,0,0,1,0},{1,1,0,1,1,1,0},{0,0,0,0,0,0,0}},new Position(0,0), new Position(6,6));
         //maze.print();

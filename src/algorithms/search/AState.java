@@ -9,9 +9,8 @@ package algorithms.search;
  */
 public abstract class AState
 {
-    protected int cost;
-    private AState cameFrom;
-
+    public int cost;
+    public AState cameFrom;
 
     public AState(int cost, AState cameFrom)
     {
