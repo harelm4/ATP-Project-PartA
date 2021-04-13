@@ -89,7 +89,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
 
         maze[depIndex][rowIndex][colIndex] = 0;
 
-        Position3D start = new Position3D(rowIndex, colIndex, depIndex);
+        Position3D start = new Position3D(depIndex,rowIndex, colIndex);
         return start;
     }
 
@@ -118,7 +118,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
 
         }
         maze[depIndex][rowIndex][colIndex] = 0;//todo:is this ok?
-        Position3D goal = new Position3D(rowIndex, colIndex, depIndex);
+        Position3D goal = new Position3D(depIndex,rowIndex, colIndex);
         return goal;
     }
 

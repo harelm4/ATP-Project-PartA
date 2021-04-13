@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class RunSearchOnMaze {
     public static void main(String[] args) {
         IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(10,10);
-        maze.print();
+        Maze maze = mg.generate(1000,1000);
+        //maze.print();
 
         // get the maze entrance
         Position startPosition = maze.getStartPosition();
