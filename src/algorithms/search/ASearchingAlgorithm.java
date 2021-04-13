@@ -38,7 +38,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 
         while (state != null)
         {
-            solutionPath.add(state);
+            solutionPath.add(0, state);
             state = state.getCameFrom();
         }
         return new Solution(solutionPath);

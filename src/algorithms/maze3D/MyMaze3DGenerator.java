@@ -1,37 +1,29 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MyMaze3DGenerator extends AMaze3DGenerator {
+public class MyMaze3DGenerator extends AMaze3DGenerator
+{
     private ArrayList<Position3D> walls;
 
-//todo:generate 500X500X500 3D maze in under a minuet
-    /**
-     * Randomly generating a 3D maze using Prims algorithm
-     * @param rowSize
-     * @param colSize
-     * @param depthSize
-     * @return
-     */
     @Override
-    public Maze3D generate(int rowSize, int colSize,int depthSize)
+    public Maze3D generate(int depth, int row, int column)
     {
-        int[][][] maze = new int[depthSize][rowSize][colSize];
+        if (depth < 2 || row < 2 || column < 2) return null;
+
+        int[][][] maze = new int[depth][row][column];
 
         // Start with a grid full of walls
-        makeAllWalls(maze, rowSize, colSize,depthSize);
+        makeAllWalls(maze, depth, row, column);
 
-        Position3D start = setStartPosition(maze, rowSize, colSize,depthSize);
+        Position3D start = setStartPosition(maze, depth, row, column);
         walls = new ArrayList<>();
         walls.add(start);
         Position3D current;
         int count;
-        Position3D end ;
-        int out=0,in=0;
+        int out = 0;
+        int in = 0;
         while (!walls.isEmpty())
         {
             current = walls.remove((int) (Math.random() * walls.size()));
@@ -45,23 +37,23 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
                 maze[current.getDepthIndex()][current.getRowIndex()][current.getColumnIndex()] = 0;
                 //add new walls to "walls" list if they are valid walls and actually walls:
                 //up
-                addValidAdjacentCells(maze, 0, current.getRowIndex(), current.getRowIndex() - 1, current.getColumnIndex(),current.getDepthIndex());
+                addValidAdjacentCells(maze, 0, current.getRowIndex(), current.getRowIndex() - 1, current.getColumnIndex(), current.getDepthIndex());
                 //left
-                addValidAdjacentCells(maze, 0, current.getColumnIndex(), current.getRowIndex(), current.getColumnIndex() - 1,current.getDepthIndex());
+                addValidAdjacentCells(maze, 0, current.getColumnIndex(), current.getRowIndex(), current.getColumnIndex() - 1, current.getDepthIndex());
                 //down
-                addValidAdjacentCells(maze, current.getRowIndex()+1 , maze[0].length, current.getRowIndex() + 1, current.getColumnIndex(),current.getDepthIndex());
+                addValidAdjacentCells(maze, current.getRowIndex() + 1, maze[0].length, current.getRowIndex() + 1, current.getColumnIndex(), current.getDepthIndex());
                 //right
-                addValidAdjacentCells(maze, current.getColumnIndex()+1, maze[0][0].length, current.getRowIndex(), current.getColumnIndex() + 1,current.getDepthIndex());
+                addValidAdjacentCells(maze, current.getColumnIndex() + 1, maze[0][0].length, current.getRowIndex(), current.getColumnIndex() + 1, current.getDepthIndex());
                 //out
-                addValidAdjacentCells(maze, 0 , current.getDepthIndex(), current.getRowIndex(), current.getColumnIndex(),current.getDepthIndex()-1);
+                addValidAdjacentCells(maze, 0, current.getDepthIndex(), current.getRowIndex(), current.getColumnIndex(), current.getDepthIndex() - 1);
                 //in
-                addValidAdjacentCells(maze, current.getDepthIndex()+1, maze.length, current.getRowIndex(), current.getColumnIndex(),current.getDepthIndex()+1);
+                addValidAdjacentCells(maze, current.getDepthIndex() + 1, maze.length, current.getRowIndex(), current.getColumnIndex(), current.getDepthIndex() + 1);
 
             }
-            else {
+            else
+            {
                 out++;
             }
-
         }
 
         Position3D goal = setGoalPosition(maze, start);
@@ -69,38 +61,35 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         return myMaze;
     }
 
-    private void makeAllWalls(int[][][] maze, int row, int col,int dep)
+    private void makeAllWalls(int[][][] maze, int depth, int row, int column)
     {
-        for (int k = 0; k < maze.length; k++)
+        for (int k = 0; k < depth; k++)
         {
-            for (int i = 0; i < maze[0].length; i++){
-                for (int j = 0; j < maze[0][0].length; j++)
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < column; j++)
                     maze[k][i][j] = 1;
             }
-
-
         }
     }
 
     /**
-        set a random maze starting point
+     * set a random maze starting point
      */
-    private Position3D setStartPosition(int[][][] maze, int row, int col,int dep)
+    private Position3D setStartPosition(int[][][] maze, int depth, int row, int column)
     {
         Random random = new Random();
         int rowIndex = random.nextInt(row);
         int colIndex;
-        int depIndex = random.nextInt(dep);
+        int depIndex = random.nextInt(depth);
 
-        if (rowIndex == 0 || rowIndex == maze[0].length - 1|| depIndex==maze.length-1|| depIndex==0)
-            colIndex = random.nextInt(col);
+        if (rowIndex == 0 || rowIndex == row - 1 || depIndex == 0 || depIndex == depth - 1) { colIndex = random.nextInt(column); }
 
-        else
-            colIndex = ((int) Math.round(Math.random())) * (col - 1);
+        else { colIndex = ((int) Math.round(Math.random())) * (column - 1); }
 
         maze[depIndex][rowIndex][colIndex] = 0;
 
-        Position3D start = new Position3D(rowIndex, colIndex,depIndex);
+        Position3D start = new Position3D(rowIndex, colIndex, depIndex);
         return start;
     }
 
@@ -110,7 +99,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         int rowIndex = start.getRowIndex();
         int colIndex = start.getColumnIndex();
         int depIndex = start.getDepthIndex();
-        while ((start.getRowIndex() == rowIndex && start.getColumnIndex() == colIndex && start.getDepthIndex()==depIndex )|| maze[depIndex][rowIndex][colIndex] == 1)
+        while ((start.getRowIndex() == rowIndex && start.getColumnIndex() == colIndex && start.getDepthIndex() == depIndex) || maze[depIndex][rowIndex][colIndex] == 1)
         {
             //pick a random row
             rowIndex = r.nextInt(maze[0].length);
@@ -118,54 +107,48 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
             depIndex = r.nextInt(maze.length);
             //if the row is first or last-pick a random cell
             //else-pick col 0 or end col randomly
-            if (rowIndex == 0 || rowIndex == maze[0].length - 1 || depIndex==maze.length-1|| depIndex==0)
+            if (rowIndex == 0 || rowIndex == maze[0].length - 1 || depIndex == maze.length - 1 || depIndex == 0)
             {
                 colIndex = r.nextInt(maze[0][0].length);
-            } else
+            }
+            else
             {
                 colIndex = ((int) (Math.round(Math.random())) * (maze[0].length - 1));
             }
 
         }
         maze[depIndex][rowIndex][colIndex] = 0;//todo:is this ok?
-        Position3D goal = new Position3D(rowIndex,colIndex,depIndex);
+        Position3D goal = new Position3D(rowIndex, colIndex, depIndex);
         return goal;
     }
 
     /**
-        returns the number of neighbors that has the value of 0 and in the valid range of the maze
-
+     * returns the number of neighbors that has the value of 0 and in the valid range of the maze
      */
     private int checkNumberOfVisitedNeighbors(int[][][] maze, Position3D current)
     {
         int numOfValidNeighbors = 0;
         //up
-        if (current.getRowIndex()-1 >= 0 && maze[current.getDepthIndex()][current.getRowIndex()-1][current.getColumnIndex()] == 0)
-            numOfValidNeighbors++;
+        if (current.getRowIndex() - 1 > 0 && maze[current.getDepthIndex()][current.getRowIndex() - 1][current.getColumnIndex()] == 0) numOfValidNeighbors++;
         //down
-        if (current.getRowIndex()+1 < maze[0].length && maze[current.getDepthIndex()][current.getRowIndex()+1][current.getColumnIndex()] == 0)
-            numOfValidNeighbors++;
+        if (current.getRowIndex() + 1 < maze[0].length && maze[current.getDepthIndex()][current.getRowIndex() + 1][current.getColumnIndex()] == 0) numOfValidNeighbors++;
         //left
-        if (current.getColumnIndex()-1 >= 0 && maze[current.getDepthIndex()][current.getRowIndex()][current.getColumnIndex()-1]== 0)
-            numOfValidNeighbors++;
+        if (current.getColumnIndex() - 1 > 0 && maze[current.getDepthIndex()][current.getRowIndex()][current.getColumnIndex() - 1] == 0) numOfValidNeighbors++;
         //right
-        if (current.getColumnIndex()+1 < maze[0][0].length && maze[current.getDepthIndex()][current.getRowIndex()][current.getColumnIndex()+1] == 0)
-            numOfValidNeighbors++;
+        if (current.getColumnIndex() + 1 < maze[0][0].length && maze[current.getDepthIndex()][current.getRowIndex()][current.getColumnIndex() + 1] == 0) numOfValidNeighbors++;
         ///in
-        if (current.getDepthIndex()+1 < maze.length && maze[current.getDepthIndex()+1][current.getRowIndex()][current.getColumnIndex()] == 0)
-            numOfValidNeighbors++;
+        if (current.getDepthIndex() + 1 < maze.length && maze[current.getDepthIndex() + 1][current.getRowIndex()][current.getColumnIndex()] == 0) numOfValidNeighbors++;
         //out
-        if (current.getDepthIndex()-1 >= 0 && maze[current.getDepthIndex()-1][current.getRowIndex()][current.getColumnIndex()] == 0)
-            numOfValidNeighbors++;
+        if (current.getDepthIndex() - 1 > 0 && maze[current.getDepthIndex() - 1][current.getRowIndex()][current.getColumnIndex()] == 0) numOfValidNeighbors++;
 
         return numOfValidNeighbors;
     }
 
-    private void addValidAdjacentCells(int[][][] maze, int bottom, int upper, int row, int col,int dep)
+    private void addValidAdjacentCells(int[][][] maze, int bottom, int upper, int row, int col, int dep)
     {
         if (bottom < upper && maze[dep][row][col] == 1)
         {
-            Position3D position = new Position3D(row, col,dep);
+            Position3D position = new Position3D(dep, row, col);
             walls.add(position);
         }
     }

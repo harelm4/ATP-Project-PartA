@@ -3,7 +3,7 @@ package algorithms.mazeGenerators;
 import java.util.HashMap;
 
 /**
- * A class representing a location in the maze
+ * A class representing a location in the 2D maze
  *
  * @author Eden_Hai
  * @version 1.0
@@ -19,12 +19,12 @@ public class Position
      * Constructor
      *
      * @param row row index
-     * @param col column index
+     * @param column column index
      */
-    public Position(int row, int col)
+    public Position(int row, int column)
     {
-        rowIndex = row;
-        colIndex = col;
+        this.rowIndex = row;
+        this.colIndex = column;
     }
 
     public int getColumnIndex() { return colIndex; }
@@ -37,6 +37,7 @@ public class Position
      * @param obj the reference object with which to compare.
      * @return true if this object is the same as the obj argument; false otherwise.
      */
+    @Override
     public boolean equals(Object obj)
     {
         if (this == obj) { return true; }
@@ -52,10 +53,13 @@ public class Position
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() { return super.hashCode(); }
 
     /**
+     * Override toString() to print position as format {row,column}
      * @return a string representation of the position.
      */
+    @Override
     public String toString() { return "{" + rowIndex + "," + colIndex + "}"; }
 }

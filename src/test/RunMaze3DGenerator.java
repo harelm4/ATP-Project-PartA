@@ -1,13 +1,9 @@
 package test;
 
-import algorithms.maze3D.IMazeGenerator3D;
+import algorithms.maze3D.IMaze3DGenerator;
 import algorithms.maze3D.Maze3D;
 import algorithms.maze3D.MyMaze3DGenerator;
 import algorithms.maze3D.Position3D;
-import algorithms.mazeGenerators.IMazeGenerator;
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
-import algorithms.mazeGenerators.SimpleMazeGenerator;
 
 public class RunMaze3DGenerator {
 
@@ -15,13 +11,13 @@ public class RunMaze3DGenerator {
         testMazeGenerator(new MyMaze3DGenerator());
     }
 
-    private static void testMazeGenerator(IMazeGenerator3D mazeGenerator)
+    private static void testMazeGenerator(IMaze3DGenerator mazeGenerator)
     {
         // prints the time it takes the algorithm to run
 //        System.out.println(String.format("Maze generation time(ms): %s", mazeGenerator.measureAlgorithmTimeMillis(100,100,100)));
 
         // generate another maze
-        Maze3D maze = mazeGenerator.generate(7, 3, 10);
+        Maze3D maze = mazeGenerator.generate(6, 6, 6);
 
         // prints the maze
         maze.print();

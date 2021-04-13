@@ -28,15 +28,16 @@ public class MazeState extends AState
 
     /**
      * Compare between two mazeStates based on the position
-     * @param o - the other mazeState to check equality with
+     * @param obj - the other mazeState to check equality with
      * @return true if equals; otherwise false
      */
     @Override
-    public boolean equals(Object o)
+    public boolean equals(Object obj)
     {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        MazeState mazeState = (MazeState) o;
-        return mazeState.getPosition().equals(curPosition);
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
+        MazeState other = (MazeState) obj;
+        return other.getPosition().equals(curPosition);
     }
 }
