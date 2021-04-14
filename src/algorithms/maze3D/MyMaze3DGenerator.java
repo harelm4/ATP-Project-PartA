@@ -96,9 +96,10 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
     private Position3D setGoalPosition(int[][][] maze, Position3D start)
     {
         Random r = new Random();
+        int depIndex = start.getDepthIndex();
         int rowIndex = start.getRowIndex();
         int colIndex = start.getColumnIndex();
-        int depIndex = start.getDepthIndex();
+
         while ((start.getRowIndex() == rowIndex && start.getColumnIndex() == colIndex && start.getDepthIndex() == depIndex) || maze[depIndex][rowIndex][colIndex] == 1)
         {
             //pick a random row
@@ -113,11 +114,11 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
             }
             else
             {
-                colIndex = ((int) (Math.round(Math.random())) * (maze[0].length - 1));
+                colIndex = ((int) (Math.round(Math.random())) * (maze[0][0].length - 1));
             }
 
         }
-        maze[depIndex][rowIndex][colIndex] = 0;//todo:is this ok?
+        maze[depIndex][rowIndex][colIndex] = 0;
         Position3D goal = new Position3D(depIndex,rowIndex, colIndex);
         return goal;
     }

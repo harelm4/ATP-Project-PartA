@@ -140,35 +140,6 @@ public class Maze
             System.out.println("}");
         }
     }
-//    public void print()
-//    {
-//        System.out.print("╔");
-//        for (int i = 0; i < m_colSize; i++)
-//        {
-//            System.out.print("═");
-//        }
-//        System.out.println("╗");
-//        for (int i = 0; i < m_rowSize; i++)
-//        {
-//            System.out.print("║");
-//            for (int j = 0; j < m_colSize; j++)
-//            {
-//                if (i == m_start.getRowIndex() && j == m_start.getColumnIndex()) { System.out.print(m_maze[i][j]); }
-//                else if (i == m_goal.getRowIndex() && j == m_goal.getColumnIndex()) { System.out.print(m_maze[i][j]); }
-//                else if (m_maze[i][j] == 0) { System.out.print("•"); }
-//                else if (m_maze[i][j] == 1) { System.out.print("█"); }
-//                System.out.print("");
-//            }
-//            System.out.println("║");
-//        }
-//        System.out.print("╚");
-//        for (int i = 0; i < m_colSize; i++)
-//        {
-//            System.out.print("═");
-//        }
-//        System.out.println("╝");
-//    }
-
         /**
          * This method checks if a position is on the edge of the maze
          * @param p - the position that wants to check
@@ -178,5 +149,6 @@ public class Maze
         {
             return p.getColumnIndex() != m_colSize - 1 && p.getColumnIndex() != 0 && p.getRowIndex() != m_rowSize - 1 && p.getRowIndex() != 0;
         }
+
 
     }

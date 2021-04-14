@@ -71,8 +71,8 @@ class BestFirstSearchTest
         solve2DAssert(myMaze2D, 3, 2);
         solve2DAssert(myMaze2D, 6, 5);
         solve2DAssert(myMaze2D, 5, 6);
-//        solve2DAssert(myMaze2D, 111, 111);
-//        solve2DAssert(myMaze2D, 1000, 1000);
+        solve2DAssert(myMaze2D, 111, 111);
+        solve2DAssert(myMaze2D, 1000, 1000);
 
     }
 
@@ -83,37 +83,8 @@ class BestFirstSearchTest
         searchableMaze = new SearchableMaze(maze);
         Solution solution = best.solve(searchableMaze);
         ArrayList<AState> solutionPath = solution.getSolutionPath();
-
-        System.out.println(solutionPath.get(solutionPath.size()-1).toString());
-        try{
-            assert maze.getStartPosition().toString().equals(solutionPath.get(0).toString());
-        }
-        catch (AssertionError e){
-            System.out.printf("------\n");
-            System.out.printf("start:\n");
-            System.out.printf(maze.getStartPosition().toString());
-            System.out.printf(solutionPath.get(0).toString());
-            System.out.printf("------\n");
-        }
-        try{
-            assert maze.getGoalPosition().toString().equals( solutionPath.get(solutionPath.size()-1).toString());
-        }
-        catch (AssertionError  e){
-            System.out.printf("------\n");
-            maze.print();
-            System.out.printf("maze:"+maze.getRowSize()+"X"+maze.getColSize()+"\n start:"+maze.getStartPosition()+"\n End:");
-
-            System.out.printf(maze.getGoalPosition().toString()+"\n");
-            System.out.printf("getting:");
-            System.out.printf(solutionPath.get(solutionPath.size()-1).toString()+"\n");
-            System.out.printf("list:\n");
-            for (AState a:
-                 solutionPath) {
-                System.out.printf(a.toString()+"\n");
-            }
-
-            System.out.printf("------\n");
-        }
+        assert maze.getStartPosition().toString().equals(solutionPath.get(0).toString());
+        assert maze.getGoalPosition().toString().equals( solutionPath.get(solutionPath.size()-1).toString());
 
     }
 
@@ -181,6 +152,7 @@ class BestFirstSearchTest
         solving3DAssert(2 ,3,2);
         solving3DAssert(3 ,3,3);
         solving3DAssert(57 ,61,4);
+        solving3DAssert(2 ,61,41);
         solving3DAssert(100 ,100,100);
     }
 
