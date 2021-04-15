@@ -30,20 +30,17 @@ public class Maze3D
         this.m_colSize = maze[0][0].length;
     }
 
-    public int[][][] getMap()
-    {
-        return m_maze;
-    }
+    public int getDepthSize() { return m_depthSize; }
 
-    public Position3D getStartPosition()
-    {
-        return m_start;
-    }
+    public int getRowSize() { return m_rowSize; }
 
-    public Position3D getGoalPosition()
-    {
-        return m_goal;
-    }
+    public int getColumnSize() { return m_colSize; }
+
+    public int[][][] getMap() { return m_maze; }
+
+    public Position3D getStartPosition() { return m_start; }
+
+    public Position3D getGoalPosition() { return m_goal; }
 
     public void print()
     {

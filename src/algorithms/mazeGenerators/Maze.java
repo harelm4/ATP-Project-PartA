@@ -1,6 +1,5 @@
 package algorithms.mazeGenerators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -86,18 +85,6 @@ public class Maze
         m_goal = new Position(rowIndex, colIndex);
     }
 
-    /**
-     * This method returns the value of the cell in the maze
-     * @param position - the position to get value from
-     * @return The value in position
-     */
-    public int getValueInCell(Position position)
-    {
-        if (position.getRowIndex() < m_rowSize && position.getColumnIndex() < m_colSize)
-            return m_maze[position.getRowIndex()][position.getColumnIndex()];
-        return -1;
-    }
-
     protected void addWall(int row, int col) { m_maze[row][col] = 1; }
 
     protected void breakWall(int row, int col) { m_maze[row][col] = 0; }
@@ -140,15 +127,15 @@ public class Maze
             System.out.println("}");
         }
     }
-        /**
-         * This method checks if a position is on the edge of the maze
-         * @param p - the position that wants to check
-         * @return true if p on some edge; otherwise false
-         */
-        protected boolean isPositionOnEdges (Position p)
-        {
-            return p.getColumnIndex() != m_colSize - 1 && p.getColumnIndex() != 0 && p.getRowIndex() != m_rowSize - 1 && p.getRowIndex() != 0;
-        }
 
-
+    /**
+     * This method checks if a position is on the edge of the maze
+     *
+     * @param p - the position that wants to check
+     * @return true if p on some edge; otherwise false
+     */
+    protected boolean isPositionOnEdges(Position p)
+    {
+        return p.getColumnIndex() != m_colSize - 1 && p.getColumnIndex() != 0 && p.getRowIndex() != m_rowSize - 1 && p.getRowIndex() != 0;
     }
+}
