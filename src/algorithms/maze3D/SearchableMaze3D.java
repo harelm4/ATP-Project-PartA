@@ -9,11 +9,6 @@ public class SearchableMaze3D implements ISearchable
 {
     private Maze3D maze;
 
-    /**
-     * Constructor
-     *
-     * @param maze
-     */
     public SearchableMaze3D(Maze3D maze) { this.maze = maze; }
 
     @Override
@@ -35,52 +30,32 @@ public class SearchableMaze3D implements ISearchable
         int row = state.getPosition().getRowIndex();
         int col = state.getPosition().getColumnIndex();
         int dep = state.getPosition().getDepthIndex();
-        boolean up, right_up, right, right_down, down, left_down, left, left_up, in, out;
+        boolean up, right, down, left, in, out;
 
         up = isMoveValid(dep, row - 1, col);
         if (up) { allPossibleState.add(new Maze3DState(new Position3D(dep, row - 1, col), curState.getCost() + 10, curState)); }
 
-        right_up = isMoveValid(dep,row - 1, col + 1);
-        if (right_up) { allPossibleState.add(new Maze3DState(new Position3D(dep,row - 1, col + 1), curState.getCost() + 15, curState)); }
-
         right = isMoveValid(dep, row, col + 1);
         if (right) { allPossibleState.add(new Maze3DState(new Position3D(dep, row, col + 1), curState.getCost() + 10, curState)); }
-
-        right_down = isMoveValid(dep, row + 1, col + 1);
-        if (right_down) { allPossibleState.add(new Maze3DState(new Position3D(dep, row + 1, col + 1), curState.getCost() + 15, curState)); }
 
         down = isMoveValid(dep, row + 1, col);
         if (down) { allPossibleState.add(new Maze3DState(new Position3D(dep, row + 1, col), curState.getCost() + 10, curState)); }
 
-        left_down = isMoveValid(dep, row + 1, col - 1);
-        if (left_down) { allPossibleState.add(new Maze3DState(new Position3D(dep, row + 1, col - 1), curState.getCost() + 15, curState)); }
-
         left = isMoveValid(dep, row, col - 1);
         if (left) { allPossibleState.add(new Maze3DState(new Position3D(dep, row, col - 1), curState.getCost() + 10, curState)); }
-
-        left_up = isMoveValid(dep, row - 1, col - 1);
-        if (left_up) { allPossibleState.add(new Maze3DState(new Position3D(dep, row - 1, col - 1), curState.getCost() + 15, curState)); }
 
         in = isMoveValid(dep + 1, row, col);
         if (in) { allPossibleState.add(new Maze3DState(new Position3D(dep + 1, row, col), curState.getCost() + 10, curState)); }
 
-        out = isMoveValid(dep - 1, row - 1, col - 1);
+        out = isMoveValid(dep - 1, row, col);
         if (out) { allPossibleState.add(new Maze3DState(new Position3D(dep - 1, row, col), curState.getCost() + 10, curState)); }
 
         return allPossibleState;
     }
 
-//    /**
-//     * @param row
-//     * @param col
-//     * @param dep
-//     * @return true if there is a 0 in this position
-//     */
     private boolean isMoveValid(int depth, int row, int column)
     {
         try { return maze.getMap()[depth][row][column] == 0; }
         catch (Exception e) { return false; }
     }
-
-
 }

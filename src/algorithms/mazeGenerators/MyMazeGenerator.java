@@ -45,8 +45,8 @@ public class MyMazeGenerator extends AMazeGenerator
            Add the walls of the cell to the wall list. */
         wallsOfTheCell.add(myMaze.getStartPosition());
 
-        Position current=null;
-        Position goal=null;
+        Position current = null;
+        Position goal = null;
         int count;
 
         /* While there are walls in the list: */
@@ -69,7 +69,7 @@ public class MyMazeGenerator extends AMazeGenerator
                 addValidAdjacentCells(myMaze.getMaze(), 0, current.getColumnIndex(), current.getRowIndex(), current.getColumnIndex() - 1);
                 addValidAdjacentCells(myMaze.getMaze(), current.getRowIndex() + 1, myMaze.getRowSize(), current.getRowIndex() + 1, current.getColumnIndex());
                 addValidAdjacentCells(myMaze.getMaze(), current.getColumnIndex() + 1, myMaze.getColSize(), current.getRowIndex(), current.getColumnIndex() + 1);
-                goal=current;
+                goal = current;
             }
         }
         myMaze.setGoalPosition(goal);

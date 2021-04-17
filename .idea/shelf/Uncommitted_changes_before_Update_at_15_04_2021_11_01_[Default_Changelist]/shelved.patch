@@ -1,0 +1,257 @@
+Index: src/test/RunSearchOnMaze3D.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package test;\r\n\r\nimport algorithms.maze3D.IMaze3DGenerator;\r\nimport algorithms.maze3D.Maze3D;\r\nimport algorithms.maze3D.MyMaze3DGenerator;\r\nimport algorithms.maze3D.SearchableMaze3D;\r\nimport algorithms.search.*;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class RunSearchOnMaze3D {\r\n    public static void main(String[] args) {\r\n        IMaze3DGenerator mg = new MyMaze3DGenerator();\r\n       // Maze3D maze = mg.generate(7,7,3);\r\n       // Maze maze = new Maze(new int[][] {{0,0,0,0,0,0,0},{0,1,1,1,1,1,1},{0,0,0,0,0,1,0},{1,1,0,1,1,1,0},{0,0,0,0,0,1,0},{1,1,0,1,1,1,0},{0,0,0,0,0,0,0}},new Position(0,0), new Position(6,6));\r\n        //maze.print();\r\n\r\n        Maze3D maze;\r\n        for(int i=0 ; i<20;i++){\r\n            maze = mg.generate(100,100,100);\r\n            SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);\r\n//        solveProblem(searchableMaze, new BreadthFirstSearch());\r\n        solveProblem(searchableMaze, new DepthFirstSearch());\r\n//            solveProblem(searchableMaze, new BestFirstSearch());\r\n        }\r\n\r\n    }\r\n\r\n    private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher)\r\n    {\r\n        //Solve a searching problem with a searcher\r\n        Solution solution = searcher.solve(domain);\r\n        System.out.println(String.format(\"'%s' algorithm - nodes evaluated: %s\", searcher.getName(), searcher.getNumberOfNodesEvaluated()));\r\n\r\n        //Printing Solution Path\r\n        System.out.println(\"Solution path:\");\r\n        ArrayList<AState> solutionPath = solution.getSolutionPath();\r\n        for (int i = 0; i < solutionPath.size(); i++) {\r\n            System.out.println(String.format(\"%s.%s\", i, solutionPath.get(i)));\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/RunSearchOnMaze3D.java	(revision 61f661769bf9b4c184a0c1e84c7881b5d9072c40)
++++ src/test/RunSearchOnMaze3D.java	(date 1618383878570)
+@@ -11,17 +11,14 @@
+ public class RunSearchOnMaze3D {
+     public static void main(String[] args) {
+         IMaze3DGenerator mg = new MyMaze3DGenerator();
+-       // Maze3D maze = mg.generate(7,7,3);
+-       // Maze maze = new Maze(new int[][] {{0,0,0,0,0,0,0},{0,1,1,1,1,1,1},{0,0,0,0,0,1,0},{1,1,0,1,1,1,0},{0,0,0,0,0,1,0},{1,1,0,1,1,1,0},{0,0,0,0,0,0,0}},new Position(0,0), new Position(6,6));
+-        //maze.print();
+ 
+         Maze3D maze;
+         for(int i=0 ; i<20;i++){
+             maze = mg.generate(100,100,100);
+             SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
+-//        solveProblem(searchableMaze, new BreadthFirstSearch());
++        solveProblem(searchableMaze, new BreadthFirstSearch());
+         solveProblem(searchableMaze, new DepthFirstSearch());
+-//            solveProblem(searchableMaze, new BestFirstSearch());
++            solveProblem(searchableMaze, new BestFirstSearch());
+         }
+ 
+     }
+Index: JUnit/algorithms/search/BestFirstSearchTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package algorithms.search;\r\n\r\nimport algorithms.maze3D.*;\r\nimport algorithms.mazeGenerators.*;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\nimport org.junit.jupiter.api.Assertions;\r\nimport org.junit.jupiter.api.Test;\r\n\r\nimport java.util.ArrayList;\r\n\r\n\r\nclass BestFirstSearchTest\r\n{\r\n    private Maze maze;\r\n    private Maze3D maze3D;\r\n    private SearchableMaze searchableMaze;\r\n    private EmptyMazeGenerator emptyMaze = new EmptyMazeGenerator();\r\n    private SimpleMazeGenerator simpleMaze = new SimpleMazeGenerator();\r\n    private MyMazeGenerator myMaze2D = new MyMazeGenerator();\r\n    private MyMaze3DGenerator myMaze3D = new MyMaze3DGenerator();\r\n    private ISearchingAlgorithm best ;\r\n\r\n    @Test\r\n    public void GetAlgorithmNameTest()\r\n    {\r\n        best = new BestFirstSearch();\r\n        assertEquals(\"BestFirstSearch\", best.getName());\r\n    }\r\n\r\n    @Test\r\n    public void notNullTest()\r\n    {\r\n        assertNull(emptyMaze.generate(-2,4));\r\n        assertNull(simpleMaze.generate(-10, -10));\r\n        assertNull(myMaze2D.generate(0,0));\r\n        assertNull(myMaze3D.generate(4,-9,10));\r\n    }\r\n\r\n    @Test\r\n    public void mazeSizeTest()\r\n    {\r\n        maze = simpleMaze.generate(100, 200);\r\n        searchableMaze = new SearchableMaze(maze);\r\n        assertEquals(maze.getRowSize(), 100);\r\n        assertEquals(maze.getColSize(), 200);\r\n    }\r\n\r\n    @Test\r\n    public void getNumOfNodesEvaluatedTest()\r\n    {\r\n        best = new BestFirstSearch();\r\n        best.solve(null);\r\n        assertEquals(best.getNumberOfNodesEvaluated(), 0);\r\n    }\r\n\r\n    @Test\r\n    public void solve2DMazeTest()\r\n    {\r\n        solve2DAssert(emptyMaze, 2, 2);\r\n        solve2DAssert(emptyMaze, 60, 50);\r\n\r\n        solve2DAssert(simpleMaze, 2,3);\r\n        solve2DAssert(emptyMaze, 1000, 1000);\r\n        solve2DAssert(simpleMaze, 3,2);\r\n        solve2DAssert(simpleMaze, 67, 57);\r\n        solve2DAssert(simpleMaze, 1000, 650);\r\n        solve2DAssert(simpleMaze, 1000,1000);\r\n        solve2DAssert(myMaze2D, 2, 2);\r\n        solve2DAssert(myMaze2D, 2, 3);\r\n        solve2DAssert(myMaze2D, 3, 2);\r\n        solve2DAssert(myMaze2D, 6, 5);\r\n        solve2DAssert(myMaze2D, 5, 6);\r\n//        solve2DAssert(myMaze2D, 111, 111);\r\n//        solve2DAssert(myMaze2D, 1000, 1000);\r\n\r\n    }\r\n\r\n    private void solve2DAssert(IMazeGenerator mazeGenerator, int row, int column)\r\n    {\r\n        best = new BestFirstSearch();\r\n        maze = mazeGenerator.generate(row, column);\r\n        searchableMaze = new SearchableMaze(maze);\r\n        Solution solution = best.solve(searchableMaze);\r\n        ArrayList<AState> solutionPath = solution.getSolutionPath();\r\n\r\n        System.out.println(solutionPath.get(solutionPath.size()-1).toString());\r\n        try{\r\n            assert maze.getStartPosition().toString().equals(solutionPath.get(0).toString());\r\n        }\r\n        catch (AssertionError e){\r\n            System.out.printf(\"------\\n\");\r\n            System.out.printf(\"start:\\n\");\r\n            System.out.printf(maze.getStartPosition().toString());\r\n            System.out.printf(solutionPath.get(0).toString());\r\n            System.out.printf(\"------\\n\");\r\n        }\r\n        try{\r\n            assert maze.getGoalPosition().toString().equals( solutionPath.get(solutionPath.size()-1).toString());\r\n        }\r\n        catch (AssertionError  e){\r\n            System.out.printf(\"------\\n\");\r\n            maze.print();\r\n            System.out.printf(\"maze:\"+maze.getRowSize()+\"X\"+maze.getColSize()+\"\\n start:\"+maze.getStartPosition()+\"\\n End:\");\r\n\r\n            System.out.printf(maze.getGoalPosition().toString()+\"\\n\");\r\n            System.out.printf(\"getting:\");\r\n            System.out.printf(solutionPath.get(solutionPath.size()-1).toString()+\"\\n\");\r\n            System.out.printf(\"list:\\n\");\r\n            for (AState a:\r\n                 solutionPath) {\r\n                System.out.printf(a.toString()+\"\\n\");\r\n            }\r\n\r\n            System.out.printf(\"------\\n\");\r\n        }\r\n\r\n    }\r\n\r\n    // testing generate and start & goal positions are correct in the solution of empty Maze\r\n    @Test\r\n    public void solveEmptyMaze()\r\n    {\r\n        best = new BestFirstSearch();\r\n        EmptyMazeGenerator myEmptyMaze = new EmptyMazeGenerator();\r\n        Maze emptyMaze = myEmptyMaze.generate(1000,1000);\r\n        searchableMaze = new SearchableMaze(emptyMaze);\r\n        Solution solveEmptyMaze = best.solve(searchableMaze);\r\n        ArrayList<AState> solution = solveEmptyMaze.getSolutionPath();\r\n        Assertions.assertEquals(emptyMaze.getGoalPosition().toString(),solution.get(solution.size()-1).toString());\r\n        Assertions.assertEquals(emptyMaze.getStartPosition().toString(),solution.get(0).toString());\r\n    }\r\n\r\n    // testing generate and start & goal positions are correct in the solution of simple Maze\r\n    @Test\r\n    public void solveSimpleMaze()\r\n    {\r\n\r\n        best = new BestFirstSearch();\r\n        SimpleMazeGenerator mySimpleMaze = new SimpleMazeGenerator();\r\n        Maze simpleMaze = mySimpleMaze.generate(1000,1000);\r\n        searchableMaze = new SearchableMaze(simpleMaze);\r\n        Solution solveEmptyMaze = best.solve(searchableMaze);\r\n        ArrayList<AState> solution = solveEmptyMaze.getSolutionPath();\r\n        Assertions.assertEquals(simpleMaze.getGoalPosition().toString(),solution.get(solution.size()-1).toString());\r\n        Assertions.assertEquals(simpleMaze.getStartPosition().toString(),solution.get(0).toString());\r\n\r\n    }\r\n\r\n    // testing generate and start & goal positions are correct in the solution of my Maze\r\n    @Test\r\n    public void solveMyMaze()\r\n    {\r\n        best = new BestFirstSearch();\r\n        MyMazeGenerator myMyMaze = new MyMazeGenerator();\r\n        Maze myMaze = myMyMaze.generate(1000,1000);\r\n        searchableMaze = new SearchableMaze(myMaze);\r\n        Solution solveMaze = best.solve(searchableMaze);\r\n        ArrayList<AState> solution = solveMaze.getSolutionPath();\r\n        Assertions.assertEquals(myMaze.getGoalPosition().toString(),solution.get(solution.size()-1).toString());\r\n        Assertions.assertEquals(myMaze.getStartPosition().toString(),solution.get(0).toString());\r\n    }\r\n\r\n    @Test\r\n    void solveInMinute() {\r\n        BestFirstSearch BFS = new BestFirstSearch();\r\n\r\n        MyMazeGenerator myMaze = new MyMazeGenerator();\r\n        Maze maze = myMaze.generate(1000, 1000);\r\n        SearchableMaze searchableMaze = new SearchableMaze(maze);\r\n        long before = System.currentTimeMillis();\r\n        BFS.solve(searchableMaze);\r\n        long time = System.currentTimeMillis() - before;\r\n        Assertions.assertTrue(time <= 60000);\r\n    }\r\n\r\n\r\n    @Test\r\n    public void solving3DMazes() {\r\n        solving3DAssert(2 ,2,2);\r\n        solving3DAssert(2 ,3,2);\r\n        solving3DAssert(3 ,3,3);\r\n        solving3DAssert(57 ,61,4);\r\n        solving3DAssert(100 ,100,100);\r\n    }\r\n\r\n    public void solving3DAssert(int dep ,int row,int col)\r\n    {\r\n\r\n        ISearchingAlgorithm best = new BestFirstSearch();\r\n        IMaze3DGenerator IMaze3DGenerator = new MyMaze3DGenerator();\r\n        Maze3D maze = IMaze3DGenerator.generate(dep, row, col);\r\n        SearchableMaze3D sm = new SearchableMaze3D(maze);\r\n        Solution s = best.solve(sm);\r\n        AState blank = null;\r\n        assert s != null;\r\n        assert s.getSolutionPath().size() >= 1;\r\n        assert s.getSolutionPath().contains(new Maze3DState(maze.getGoalPosition(), 0, blank));\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- JUnit/algorithms/search/BestFirstSearchTest.java	(revision 61f661769bf9b4c184a0c1e84c7881b5d9072c40)
++++ JUnit/algorithms/search/BestFirstSearchTest.java	(date 1618391224812)
+@@ -2,6 +2,7 @@
+ 
+ import algorithms.maze3D.*;
+ import algorithms.mazeGenerators.*;
++
+ import static org.junit.jupiter.api.Assertions.*;
+ 
+ import org.junit.jupiter.api.Assertions;
+@@ -9,17 +10,16 @@
+ 
+ import java.util.ArrayList;
+ 
+-
+ class BestFirstSearchTest
+ {
+     private Maze maze;
+-    private Maze3D maze3D;
++    //    private Maze3D maze3D;
+     private SearchableMaze searchableMaze;
+     private EmptyMazeGenerator emptyMaze = new EmptyMazeGenerator();
+     private SimpleMazeGenerator simpleMaze = new SimpleMazeGenerator();
+     private MyMazeGenerator myMaze2D = new MyMazeGenerator();
+     private MyMaze3DGenerator myMaze3D = new MyMaze3DGenerator();
+-    private ISearchingAlgorithm best ;
++    private ISearchingAlgorithm best;
+ 
+     @Test
+     public void GetAlgorithmNameTest()
+@@ -31,10 +31,10 @@
+     @Test
+     public void notNullTest()
+     {
+-        assertNull(emptyMaze.generate(-2,4));
++        assertNull(emptyMaze.generate(-2, 4));
+         assertNull(simpleMaze.generate(-10, -10));
+-        assertNull(myMaze2D.generate(0,0));
+-        assertNull(myMaze3D.generate(4,-9,10));
++        assertNull(myMaze2D.generate(0, 0));
++        assertNull(myMaze3D.generate(4, -9, 10));
+     }
+ 
+     @Test
+@@ -57,22 +57,26 @@
+     @Test
+     public void solve2DMazeTest()
+     {
++        /* ---------- Empty Maze ---------- */
+         solve2DAssert(emptyMaze, 2, 2);
+         solve2DAssert(emptyMaze, 60, 50);
+-
+-        solve2DAssert(simpleMaze, 2,3);
+         solve2DAssert(emptyMaze, 1000, 1000);
+-        solve2DAssert(simpleMaze, 3,2);
++
++        /* ---------- Simple Maze ---------- */
++        solve2DAssert(simpleMaze, 2, 3);
++        solve2DAssert(simpleMaze, 3, 2);
+         solve2DAssert(simpleMaze, 67, 57);
+         solve2DAssert(simpleMaze, 1000, 650);
+-        solve2DAssert(simpleMaze, 1000,1000);
++        solve2DAssert(simpleMaze, 1000, 1000);
++
++        /* ------------ My Maze ------------ */
+         solve2DAssert(myMaze2D, 2, 2);
+         solve2DAssert(myMaze2D, 2, 3);
+         solve2DAssert(myMaze2D, 3, 2);
+         solve2DAssert(myMaze2D, 6, 5);
+         solve2DAssert(myMaze2D, 5, 6);
+-//        solve2DAssert(myMaze2D, 111, 111);
+-//        solve2DAssert(myMaze2D, 1000, 1000);
++        solve2DAssert(myMaze2D, 111, 111);
++        solve2DAssert(myMaze2D, 1000, 1000);
+ 
+     }
+ 
+@@ -84,37 +88,39 @@
+         Solution solution = best.solve(searchableMaze);
+         ArrayList<AState> solutionPath = solution.getSolutionPath();
+ 
+-        System.out.println(solutionPath.get(solutionPath.size()-1).toString());
+-        try{
++        /* Testing if the start position of the maze equals to start position of solution path */
++        try
++        {
+             assert maze.getStartPosition().toString().equals(solutionPath.get(0).toString());
+         }
+-        catch (AssertionError e){
+-            System.out.printf("------\n");
+-            System.out.printf("start:\n");
+-            System.out.printf(maze.getStartPosition().toString());
+-            System.out.printf(solutionPath.get(0).toString());
+-            System.out.printf("------\n");
++        catch (AssertionError e)
++        {
++            System.out.print("-----------\n");
++            System.out.print("start:\n");
++            System.out.print(maze.getStartPosition().toString());
++            System.out.print(solutionPath.get(0).toString());
++            System.out.print("-----------\n");
+         }
+-        try{
+-            assert maze.getGoalPosition().toString().equals( solutionPath.get(solutionPath.size()-1).toString());
++
++        /* Testing if the goal position of the maze equals to goal position of solution path */
++        try
++        {
++            assert maze.getGoalPosition().toString().equals(solutionPath.get(solutionPath.size() - 1).toString());
+         }
+-        catch (AssertionError  e){
+-            System.out.printf("------\n");
+-            maze.print();
+-            System.out.printf("maze:"+maze.getRowSize()+"X"+maze.getColSize()+"\n start:"+maze.getStartPosition()+"\n End:");
+-
+-            System.out.printf(maze.getGoalPosition().toString()+"\n");
+-            System.out.printf("getting:");
+-            System.out.printf(solutionPath.get(solutionPath.size()-1).toString()+"\n");
+-            System.out.printf("list:\n");
+-            for (AState a:
+-                 solutionPath) {
+-                System.out.printf(a.toString()+"\n");
++        catch (AssertionError e)
++        {
++            System.out.print("-----------\n");
++//            maze.print();
++            System.out.print("Maze Size: " + maze.getRowSize() + "X" + maze.getColSize() + "\n Start Position: " + maze.getStartPosition() + "\n End:");
++            System.out.println(maze.getGoalPosition().toString());
++            System.out.print("getting: ");
++            System.out.println(solutionPath.get(solutionPath.size() - 1).toString());
++            System.out.println("list:");
++            for (AState a : solutionPath)
++            {
++                System.out.print(a.toString() + "\n");
+             }
+-
+-            System.out.printf("------\n");
+         }
+-
+     }
+ 
+     // testing generate and start & goal positions are correct in the solution of empty Maze
+@@ -123,12 +129,12 @@
+     {
+         best = new BestFirstSearch();
+         EmptyMazeGenerator myEmptyMaze = new EmptyMazeGenerator();
+-        Maze emptyMaze = myEmptyMaze.generate(1000,1000);
++        Maze emptyMaze = myEmptyMaze.generate(1000, 1000);
+         searchableMaze = new SearchableMaze(emptyMaze);
+         Solution solveEmptyMaze = best.solve(searchableMaze);
+         ArrayList<AState> solution = solveEmptyMaze.getSolutionPath();
+-        Assertions.assertEquals(emptyMaze.getGoalPosition().toString(),solution.get(solution.size()-1).toString());
+-        Assertions.assertEquals(emptyMaze.getStartPosition().toString(),solution.get(0).toString());
++        Assertions.assertEquals(emptyMaze.getGoalPosition().toString(), solution.get(solution.size() - 1).toString());
++        Assertions.assertEquals(emptyMaze.getStartPosition().toString(), solution.get(0).toString());
+     }
+ 
+     // testing generate and start & goal positions are correct in the solution of simple Maze
+@@ -138,13 +144,12 @@
+ 
+         best = new BestFirstSearch();
+         SimpleMazeGenerator mySimpleMaze = new SimpleMazeGenerator();
+-        Maze simpleMaze = mySimpleMaze.generate(1000,1000);
++        Maze simpleMaze = mySimpleMaze.generate(1000, 1000);
+         searchableMaze = new SearchableMaze(simpleMaze);
+         Solution solveEmptyMaze = best.solve(searchableMaze);
+         ArrayList<AState> solution = solveEmptyMaze.getSolutionPath();
+-        Assertions.assertEquals(simpleMaze.getGoalPosition().toString(),solution.get(solution.size()-1).toString());
+-        Assertions.assertEquals(simpleMaze.getStartPosition().toString(),solution.get(0).toString());
+-
++        Assertions.assertEquals(simpleMaze.getGoalPosition().toString(), solution.get(solution.size() - 1).toString());
++        Assertions.assertEquals(simpleMaze.getStartPosition().toString(), solution.get(0).toString());
+     }
+ 
+     // testing generate and start & goal positions are correct in the solution of my Maze
+@@ -153,16 +158,17 @@
+     {
+         best = new BestFirstSearch();
+         MyMazeGenerator myMyMaze = new MyMazeGenerator();
+-        Maze myMaze = myMyMaze.generate(1000,1000);
++        Maze myMaze = myMyMaze.generate(1000, 1000);
+         searchableMaze = new SearchableMaze(myMaze);
+         Solution solveMaze = best.solve(searchableMaze);
+         ArrayList<AState> solution = solveMaze.getSolutionPath();
+-        Assertions.assertEquals(myMaze.getGoalPosition().toString(),solution.get(solution.size()-1).toString());
+-        Assertions.assertEquals(myMaze.getStartPosition().toString(),solution.get(0).toString());
++        Assertions.assertEquals(myMaze.getGoalPosition().toString(), solution.get(solution.size() - 1).toString());
++        Assertions.assertEquals(myMaze.getStartPosition().toString(), solution.get(0).toString());
+     }
+ 
+     @Test
+-    void solveInMinute() {
++    void solveInMinute()
++    {
+         BestFirstSearch BFS = new BestFirstSearch();
+ 
+         MyMazeGenerator myMaze = new MyMazeGenerator();
+@@ -176,15 +182,16 @@
+ 
+ 
+     @Test
+-    public void solving3DMazes() {
+-        solving3DAssert(2 ,2,2);
+-        solving3DAssert(2 ,3,2);
+-        solving3DAssert(3 ,3,3);
+-        solving3DAssert(57 ,61,4);
+-        solving3DAssert(100 ,100,100);
++    public void solving3DMazes()
++    {
++        solving3DAssert(2, 2, 2);
++        solving3DAssert(2, 3, 2);
++        solving3DAssert(3, 3, 3);
++        solving3DAssert(57, 61, 4);
++        solving3DAssert(100, 100, 100);
+     }
+ 
+-    public void solving3DAssert(int dep ,int row,int col)
++    public void solving3DAssert(int dep, int row, int col)
+     {
+ 
+         ISearchingAlgorithm best = new BestFirstSearch();

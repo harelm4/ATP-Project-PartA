@@ -53,8 +53,7 @@ public class Maze
         int colIndex;
 
         /* ----------- UP ----------- */
-        if (rowIndex == 0)
-        { colIndex = random.nextInt(m_colSize); }
+        if (rowIndex == 0) { colIndex = random.nextInt(m_colSize); }
 
         /* ---------- DOWN ---------- */
         else if (rowIndex == m_rowSize - 1) { colIndex = random.nextInt(m_colSize); }

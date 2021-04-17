@@ -22,17 +22,16 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
         walls.add(start);
         Position3D current;
         int count;
-        int out = 0;
-        int in = 0;
+
         while (!walls.isEmpty())
         {
             current = walls.remove((int) (Math.random() * walls.size()));
+
             //count how many valid,0 valued neighbors current has
             count = checkNumberOfVisitedNeighbors(maze, current);
 
             if (count <= 1)
             {
-                in++;
                 //break random wall
                 maze[current.getDepthIndex()][current.getRowIndex()][current.getColumnIndex()] = 0;
                 //add new walls to "walls" list if they are valid walls and actually walls:
@@ -49,10 +48,6 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
                 //in
                 addValidAdjacentCells(maze, current.getDepthIndex() + 1, maze.length, current.getRowIndex(), current.getColumnIndex(), current.getDepthIndex() + 1);
 
-            }
-            else
-            {
-                out++;
             }
         }
 
@@ -89,7 +84,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
 
         maze[depIndex][rowIndex][colIndex] = 0;
 
-        Position3D start = new Position3D(depIndex,rowIndex, colIndex);
+        Position3D start = new Position3D(depIndex, rowIndex, colIndex);
         return start;
     }
 
@@ -100,26 +95,27 @@ public class MyMaze3DGenerator extends AMaze3DGenerator
         int rowIndex = start.getRowIndex();
         int colIndex = start.getColumnIndex();
 
-        while ((start.getRowIndex() == rowIndex && start.getColumnIndex() == colIndex && start.getDepthIndex() == depIndex) || maze[depIndex][rowIndex][colIndex] == 1)
+        while (start.getRowIndex() == rowIndex || start.getColumnIndex() == colIndex || start.getDepthIndex() == depIndex || maze[depIndex][rowIndex][colIndex] == 1)
         {
             //pick a random row
             rowIndex = r.nextInt(maze[0].length);
             //pick a random depth
             depIndex = r.nextInt(maze.length);
+
             //if the row is first or last-pick a random cell
-            //else-pick col 0 or end col randomly
             if (rowIndex == 0 || rowIndex == maze[0].length - 1 || depIndex == maze.length - 1 || depIndex == 0)
             {
                 colIndex = r.nextInt(maze[0][0].length);
             }
+
+            //else-pick col 0 or end col randomly
             else
             {
                 colIndex = ((int) (Math.round(Math.random())) * (maze[0][0].length - 1));
             }
-
         }
         maze[depIndex][rowIndex][colIndex] = 0;
-        Position3D goal = new Position3D(depIndex,rowIndex, colIndex);
+        Position3D goal = new Position3D(depIndex, rowIndex, colIndex);
         return goal;
     }
 

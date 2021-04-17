@@ -15,14 +15,16 @@ public class RunSearchOnMaze3D
         IMaze3DGenerator mg = new MyMaze3DGenerator();
 
         Maze3D maze;
-        for (int i = 0; i < 20; i++)
-        {
-            maze = mg.generate(100, 100, 100);
+//        for (int i = 0; i < 20; i++)
+//        {
+            maze = mg.generate(2, 10, 10);
             SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
+            maze.print();
+
             solveProblem(searchableMaze, new BreadthFirstSearch());
             solveProblem(searchableMaze, new DepthFirstSearch());
             solveProblem(searchableMaze, new BestFirstSearch());
-        }
+//        }
 
     }
 
@@ -37,7 +39,7 @@ public class RunSearchOnMaze3D
         ArrayList<AState> solutionPath = solution.getSolutionPath();
         for (int i = 0; i < solutionPath.size(); i++)
         {
-            System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
+            System.out.println(String.format("%s. %s", i, solutionPath.get(i)));
         }
     }
 
